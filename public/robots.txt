@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://bildklein.ch/sitemap.xml
-

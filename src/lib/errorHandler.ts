@@ -98,49 +98,37 @@ export class ErrorHandler {
   }
 
   validateBrowserSupport(): ErrorInfo | null {
-    // Only check in browser environment, not during SSR
-    if (typeof window === 'undefined') {
-      return null;
-    }
-
     // Check for required APIs
-    const missingAPIs: string[] = [];
+    const requiredAPIs = [
+      'FileReader',
+      'CanvasRenderingContext2D',
+      'Blob',
+      'URL.createObjectURL'
+    ];
 
-    // Check FileReader
-    if (typeof FileReader === 'undefined') {
-      missingAPIs.push('FileReader');
-    }
-
-    // Check Blob
-    if (typeof Blob === 'undefined') {
-      missingAPIs.push('Blob');
-    }
-
-    // Check URL.createObjectURL
-    if (typeof URL === 'undefined' || typeof URL.createObjectURL !== 'function') {
-      missingAPIs.push('URL.createObjectURL');
-    }
-
-    // Check Canvas API
-    if (typeof HTMLCanvasElement === 'undefined') {
-      missingAPIs.push('Canvas');
-    } else {
-      const canvas = document.createElement('canvas');
-      if (!canvas.getContext('2d')) {
-        missingAPIs.push('Canvas2D');
+    const missingAPIs = requiredAPIs.filter(api => {
+      if (api === 'CanvasRenderingContext2D') {
+        const canvas = document.createElement('canvas');
+        return !canvas.getContext('2d');
       }
-    }
-
-    // Check for Web Workers support
-    if (typeof Worker === 'undefined') {
-      missingAPIs.push('Web Workers');
-    }
+      return !(api in window);
+    });
 
     if (missingAPIs.length > 0) {
       return {
         type: 'browser_not_supported',
         message: this.errorMessages.browser_not_supported,
         details: `Fehlende APIs: ${missingAPIs.join(', ')}`,
+        retryable: false
+      };
+    }
+
+    // Check for Web Workers support
+    if (typeof Worker === 'undefined') {
+      return {
+        type: 'browser_not_supported',
+        message: this.errorMessages.browser_not_supported,
+        details: 'Web Workers werden nicht unterstützt',
         retryable: false
       };
     }
