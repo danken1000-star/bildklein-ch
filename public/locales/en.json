@@ -1,0 +1,47 @@
+{
+  "title": "bildklein.ch - Swiss Image Compression",
+  "description": "Compress your images quickly and easily. Made in Switzerland.",
+  "upload": {
+    "title": "Upload Images",
+    "subtitle": "Drag your images here or click to select",
+    "supportedFormats": "Supported formats: JPG, PNG, WebP",
+    "maxSize": "Max. 10MB per image"
+  },
+  "settings": {
+    "title": "Compression Settings",
+    "quality": "Quality",
+    "maxSize": "Maximum file size (MB)",
+    "maxDimensions": "Maximum dimensions (px)",
+    "presets": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low",
+      "custom": "Custom"
+    }
+  },
+  "preview": {
+    "title": "Preview",
+    "original": "Original",
+    "compressed": "Compressed",
+    "size": "Size",
+    "savings": "Savings",
+    "dimensions": "Dimensions"
+  },
+  "download": {
+    "title": "Download",
+    "downloadAll": "Download All",
+    "downloadSingle": "Download",
+    "preparing": "Preparing..."
+  },
+  "language": {
+    "de": "Deutsch",
+    "fr": "Français",
+    "it": "Italiano",
+    "en": "English"
+  },
+  "footer": {
+    "madeInSwitzerland": "Made in Switzerland 🇨🇭",
+    "privacy": "Privacy",
+    "imprint": "Imprint"
+  }
+}
