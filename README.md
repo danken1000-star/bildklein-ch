@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# bildklein.ch
 
-## Getting Started
+Eine neue Website für bildklein.ch - ein unabhängiges Projekt.
 
-First, run the development server:
+## Technischer Stack
+
+- **Next.js 16** - React Framework mit App Router
+- **TypeScript** - Type-safe JavaScript
+- **Tailwind CSS 4** - Utility-first CSS Framework
+- **ESLint** - Code Linting
+
+## Entwicklung
 
 ```bash
+# Dependencies installieren
+npm install
+
+# Development Server starten
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build für Production
+npm run build
+
+# Production Server starten
+npm start
+
+# Code Linting
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Projektstruktur
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+bildklein/
+├── src/
+│   └── app/          # App Router (Next.js 13+)
+├── public/           # Statische Assets
+├── components/       # React Components
+└── lib/             # Utility Functions
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deployment
 
-## Learn More
+Das Projekt ist bereit für Deployment auf:
+- Vercel (empfohlen)
+- Netlify
+- Railway
+- Oder andere Next.js-kompatible Plattformen
 
-To learn more about Next.js, take a look at the following resources:
+## Nächste Schritte
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Design und Konzept definieren
+2. Komponenten entwickeln
+3. Content Management System (falls benötigt)
+4. SEO Optimierung
+5. Performance Optimierung
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Erstellt am**: 23. Januar 2025
+**Status**: In Entwicklung
