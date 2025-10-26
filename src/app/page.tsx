@@ -1,15 +1,25 @@
-import { getMessages, Locale } from '@/lib/i18n';
-import LandingPageClient from './LandingPageClient';
+import MainPageClient from './MainPageClient';
 
-interface MainPageProps {
-  params: Promise<{
-    locale: Locale;
-  }>;
-}
+export default function MainPage() {
+  const messages = {
+    hero: {
+      headline: "Bilder kostenlos verkleinern",
+      subheadline: "Schnell, sicher, Swiss-made",
+      trust: "Über 10,000 Bilder täglich komprimiert"
+    },
+    features: {
+      private: { title: "100% Privat", description: "Bilder bleiben auf deinem Gerät" },
+      fast: { title: "Blitzschnell", description: "Komprimierung im Browser" },
+      quality: { title: "Swiss Quality", description: "Made in Switzerland" }
+    },
+    upload: {
+      title: "Bilder hochladen",
+      subtitle: "Ziehe Bilder hierher oder klicke zum Auswählen"
+    },
+    settings: { title: "Komprimierungseinstellungen" },
+    preview: { title: "Vorschau & Ergebnisse" },
+    download: { title: "Download", compressMore: "Weitere Bilder komprimieren" }
+  };
 
-export default async function MainPage({ params }: MainPageProps) {
-  const { locale } = await params;
-  const messages = await getMessages(locale);
-
-  return <LandingPageClient messages={messages} locale={locale} />;
+  return <MainPageClient messages={messages} />
 }
