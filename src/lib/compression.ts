@@ -1,4 +1,9 @@
 import imageCompression from 'browser-image-compression';
+import { 
+  getCompressionWorkerManager, 
+  CompressionProgress as WorkerCompressionProgress,
+  CompressionResult 
+} from './compression-worker-manager';
 
 export interface CompressionOptions {
   maxSizeMB: number;
@@ -77,7 +82,7 @@ export async function compressImage(
 }
 
 /**
- * Compress multiple files in parallel with progress tracking
+ * Compress multiple files in parallel with progress tracking using Web Workers
  */
 export async function batchCompress(
   files: File[],
@@ -85,6 +90,28 @@ export async function batchCompress(
   onProgress?: (progress: CompressionProgress) => void
 ): Promise<File[]> {
   const compressionOptions = { ...defaultOptions, ...options };
+
+  // Use Web Workers if enabled and available
+  if (compressionOptions.useWebWorker && typeof Worker !== 'undefined') {
+    try {
+      const workerManager = getCompressionWorkerManager();
+      
+      const results = await workerManager.compressImages(
+        files,
+        compressionOptions,
+        (progress) => {
+          onProgress?.(progress);
+        }
+      );
+
+      return results.map(result => result.compressedFile);
+    } catch (error) {
+      console.warn('Web Worker compression failed, falling back to main thread:', error);
+      // Fall back to main thread compression
+    }
+  }
+
+  // Fallback to main thread compression
   const errors: Error[] = [];
 
   // Initialize progress for all files
