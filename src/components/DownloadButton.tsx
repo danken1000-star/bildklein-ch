@@ -55,8 +55,8 @@ export default function DownloadButton({
       <button
         onClick={() => downloadSingle(files[0])}
         className={`
-          w-full bg-red-600 text-white px-6 py-3 rounded-lg font-medium
-          hover:bg-red-700 transition-colors duration-200
+          w-full bg-gradient-to-r from-pink to-turquoise text-white px-6 py-3 rounded-lg font-medium
+          hover:from-pink-600 hover:to-turquoise-600 transition-all duration-200 shadow-soft
           disabled:opacity-50 disabled:cursor-not-allowed
           ${className}
         `}
@@ -72,8 +72,8 @@ export default function DownloadButton({
         onClick={downloadAll}
         disabled={isDownloading}
         className="
-          w-full bg-red-600 text-white px-6 py-3 rounded-lg font-medium
-          hover:bg-red-700 transition-colors duration-200
+          w-full bg-gradient-to-r from-pink to-turquoise text-white px-6 py-3 rounded-lg font-medium
+          hover:from-pink-600 hover:to-turquoise-600 transition-all duration-200 shadow-soft
           disabled:opacity-50 disabled:cursor-not-allowed
         "
       >
@@ -86,8 +86,8 @@ export default function DownloadButton({
             key={index}
             onClick={() => downloadSingle(file)}
             className="
-              w-full bg-gray-100 text-gray-700 px-4 py-2 rounded-md text-sm
-              hover:bg-gray-200 transition-colors duration-200
+              w-full bg-bg-gray text-text-gray px-4 py-2 rounded-md text-sm
+              hover:bg-border hover:text-text-dark transition-colors duration-200
             "
           >
             {file.name}

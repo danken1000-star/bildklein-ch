@@ -35,8 +35,8 @@ export default function CompressSettings({
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
+    <div className="bg-bg-light rounded-lg border border-border p-6 shadow-soft">
+      <h3 className="text-lg font-semibold text-text-dark mb-4">
         {messages.settings.title}
       </h3>
       
@@ -49,8 +49,8 @@ export default function CompressSettings({
             className={`
               px-4 py-2 rounded-md text-sm font-medium transition-colors
               ${preset === presetKey
-                ? 'bg-red-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'bg-gradient-to-r from-pink to-turquoise text-white shadow-soft'
+                : 'bg-bg-gray text-text-gray hover:bg-border hover:text-text-dark'
               }
             `}
           >
@@ -61,7 +61,7 @@ export default function CompressSettings({
 
       {/* Quality Slider */}
       <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-text-dark mb-2">
           {messages.settings.quality}: {Math.round(options.quality * 100)}%
         </label>
         <input
@@ -71,9 +71,9 @@ export default function CompressSettings({
           step="0.1"
           value={options.quality}
           onChange={(e) => handleOptionChange('quality', parseFloat(e.target.value))}
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+          className="w-full h-2 bg-border rounded-lg appearance-none cursor-pointer slider"
         />
-        <div className="flex justify-between text-xs text-gray-500 mt-1">
+        <div className="flex justify-between text-xs text-text-gray mt-1">
           <span>10%</span>
           <span>100%</span>
         </div>
@@ -81,7 +81,7 @@ export default function CompressSettings({
 
       {/* Max Size */}
       <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-text-dark mb-2">
           {messages.settings.maxSize}: {options.maxSizeMB}MB
         </label>
         <input
@@ -91,9 +91,9 @@ export default function CompressSettings({
           step="0.1"
           value={options.maxSizeMB}
           onChange={(e) => handleOptionChange('maxSizeMB', parseFloat(e.target.value))}
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+          className="w-full h-2 bg-border rounded-lg appearance-none cursor-pointer slider"
         />
-        <div className="flex justify-between text-xs text-gray-500 mt-1">
+        <div className="flex justify-between text-xs text-text-gray mt-1">
           <span>0.1MB</span>
           <span>5MB</span>
         </div>
@@ -101,7 +101,7 @@ export default function CompressSettings({
 
       {/* Max Dimensions */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-text-dark mb-2">
           {messages.settings.maxDimensions}: {options.maxWidthOrHeight}px
         </label>
         <input
@@ -111,9 +111,9 @@ export default function CompressSettings({
           step="160"
           value={options.maxWidthOrHeight}
           onChange={(e) => handleOptionChange('maxWidthOrHeight', parseInt(e.target.value))}
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+          className="w-full h-2 bg-border rounded-lg appearance-none cursor-pointer slider"
         />
-        <div className="flex justify-between text-xs text-gray-500 mt-1">
+        <div className="flex justify-between text-xs text-text-gray mt-1">
           <span>320px</span>
           <span>3840px</span>
         </div>
