@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 import './globals.css';
 
+const inter = Inter({ subsets: ['latin'] });
+
 export const metadata: Metadata = {
-  title: 'bildklein.ch - Swiss Image Compression',
-  description: 'Compress your images quickly and easily. Made in Switzerland.',
+  title: 'bildklein.ch - Bilder kostenlos verkleinern',
+  description: 'Komprimiere JPG, PNG, WebP Bilder kostenlos. 100% sicher, Made in Switzerland.',
 };
 
 export default function RootLayout({
@@ -11,5 +14,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <html lang="de">
+      <body className={inter.className}>{children}</body>
+    </html>
+  );
 }

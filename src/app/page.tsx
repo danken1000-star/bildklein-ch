@@ -1,25 +1,52 @@
-import MainPageClient from './MainPageClient';
+import CompressorTool from '@/components/CompressorTool'
 
-export default function MainPage() {
-  const messages = {
-    hero: {
-      headline: "Bilder kostenlos verkleinern",
-      subheadline: "Schnell, sicher, Swiss-made",
-      trust: "Über 10,000 Bilder täglich komprimiert"
-    },
-    features: {
-      private: { title: "100% Privat", description: "Bilder bleiben auf deinem Gerät" },
-      fast: { title: "Blitzschnell", description: "Komprimierung im Browser" },
-      quality: { title: "Swiss Quality", description: "Made in Switzerland" }
-    },
-    upload: {
-      title: "Bilder hochladen",
-      subtitle: "Ziehe Bilder hierher oder klicke zum Auswählen"
-    },
-    settings: { title: "Komprimierungseinstellungen" },
-    preview: { title: "Vorschau & Ergebnisse" },
-    download: { title: "Download", compressMore: "Weitere Bilder komprimieren" }
-  };
+export default function HomePage() {
+  return (
+    <div className="min-h-screen flex flex-col bg-white">
+      <header className="border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center gap-3">
+          <div className="w-10 h-10 bg-gradient-to-br from-pink-400 to-cyan-400 rounded-lg flex items-center justify-center">
+            <span className="text-white font-bold text-xl">B</span>
+          </div>
+          <h1 className="text-xl font-bold">bildklein.ch</h1>
+          <span className="text-xl">🇨🇭</span>
+        </div>
+      </header>
 
-  return <MainPageClient messages={messages} />
+      <main className="flex-1">
+        <CompressorTool />
+      </main>
+
+      <footer className="border-t border-gray-200 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 bg-gradient-to-br from-pink-400 to-cyan-400 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-xl">B</span>
+              </div>
+              <div>
+                <div className="font-bold">bildklein.ch</div>
+                <div className="text-sm text-gray-600">🇨🇭 Made in Switzerland</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-6 text-sm">
+              <span className="text-gray-600">
+                Built by{' '}
+                <a 
+                  href="https://flow19.ch" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-cyan-600 hover:text-cyan-700 font-semibold"
+                >
+                  flow19
+                </a>
+                {' '}→
+              </span>
+              <span className="text-gray-400">Bern, Switzerland</span>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  )
 }
