@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { Download, Archive, Plus, Loader2 } from 'lucide-react';
+import { useToast } from '@/hooks/useToast';
+import { errorHandler } from '@/lib/errorHandler';
 
 interface DownloadButtonProps {
   files: File[];
@@ -31,6 +33,7 @@ export default function DownloadButton({
 }: DownloadButtonProps) {
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadingFile, setDownloadingFile] = useState<string | null>(null);
+  const { showError, showSuccess, showLoading, updateLoading } = useToast();
 
   const generateFileName = (originalFile: File, isCompressed: boolean = true) => {
     const timestamp = new Date().toISOString().slice(0, 10);
@@ -43,25 +46,40 @@ export default function DownloadButton({
     return originalFile.name;
   };
 
-  const downloadSingle = (file: File) => {
-    setDownloadingFile(file.name);
-    const fileName = generateFileName(file);
-    saveAs(file, fileName);
-    setTimeout(() => setDownloadingFile(null), 1000);
+  const downloadSingle = async (file: File) => {
+    try {
+      setDownloadingFile(file.name);
+      const fileName = generateFileName(file);
+      saveAs(file, fileName);
+      
+      showSuccess(
+        'Datei erfolgreich heruntergeladen',
+        fileName
+      );
+      
+      setTimeout(() => setDownloadingFile(null), 1000);
+    } catch (error) {
+      console.error('Download failed:', error);
+      const errorInfo = errorHandler.handleGenericError(error);
+      showError(errorInfo);
+      setDownloadingFile(null);
+    }
   };
 
   const downloadAllAsZip = async () => {
-    setIsDownloading(true);
-    const zip = new JSZip();
-    const timestamp = new Date().toISOString().slice(0, 10);
-
-    // Add all files to ZIP with renamed filenames
-    for (const file of files) {
-      const fileName = generateFileName(file);
-      zip.file(fileName, file);
-    }
-
     try {
+      setIsDownloading(true);
+      const loadingToastId = showLoading('Erstelle ZIP-Archiv...');
+      
+      const zip = new JSZip();
+      const timestamp = new Date().toISOString().slice(0, 10);
+
+      // Add all files to ZIP with renamed filenames
+      for (const file of files) {
+        const fileName = generateFileName(file);
+        zip.file(fileName, file);
+      }
+
       const content = await zip.generateAsync({ 
         type: 'blob',
         compression: 'DEFLATE',
@@ -72,8 +90,19 @@ export default function DownloadButton({
       
       const zipFileName = `bildklein-batch-${timestamp}.zip`;
       saveAs(content, zipFileName);
+      
+      // Update loading toast to success
+      updateLoading(loadingToastId, 'ZIP-Archiv erfolgreich erstellt!', 'success');
+      
+      showSuccess(
+        'ZIP-Archiv erfolgreich heruntergeladen',
+        `${files.length} Datei(en) in ${zipFileName}`
+      );
+      
     } catch (error) {
       console.error('Error creating ZIP file:', error);
+      const errorInfo = errorHandler.handleGenericError(error);
+      showError(errorInfo);
     } finally {
       setIsDownloading(false);
     }

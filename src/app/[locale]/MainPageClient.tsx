@@ -20,6 +20,8 @@ import MobileBottomSheet from '@/components/MobileBottomSheet';
 import LoadingSkeleton, { UploadSkeleton, ProgressSkeleton } from '@/components/LoadingSkeleton';
 import { useMobile, useTouchDevice } from '@/hooks/useMobile';
 import { Settings } from 'lucide-react';
+import { errorHandler } from '@/lib/errorHandler';
+import { useToast } from '@/hooks/useToast';
 
 interface CompressedImage {
   original: File;
@@ -47,6 +49,7 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
   }[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showSettingsSheet, setShowSettingsSheet] = useState(false);
+  const { showError, showSuccess, showLoading, updateLoading } = useToast();
 
   const handleFilesSelected = (selectedFiles: File[]) => {
     setFiles(selectedFiles);
@@ -69,14 +72,24 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
 
   const handleCompress = async () => {
     if (files.length === 0) return;
-    
+
+    // Check browser support first
+    const browserError = errorHandler.validateBrowserSupport();
+    if (browserError) {
+      showError(browserError);
+      return;
+    }
+
     setIsCompressing(true);
     setCompressionError(null);
     setCompressionProgress([]);
-    
+
+    // Show loading toast
+    const loadingToastId = showLoading('Komprimiere Bilder...');
+
     try {
       const compressedResults = await batchCompress(
-        files, 
+        files,
         compressionOptions,
         (progress) => {
           setCompressionProgress(prev => {
@@ -86,15 +99,15 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
           });
         }
       );
-      
+
       // Create compressed images array
       const results = files.map((original, index) => ({
         original,
         compressed: compressedResults[index] || original
       }));
-      
+
       setCompressedImages(results);
-      
+
       // Calculate compression results for display
       const resultsData = results.map(({ original, compressed }) => ({
         originalSize: original.size,
@@ -102,9 +115,29 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
         compressionRatio: calculateCompressionRatio(original.size, compressed.size)
       }));
       setCompressionResults(resultsData);
+
+      // Update loading toast to success
+      updateLoading(loadingToastId, 'Komprimierung erfolgreich abgeschlossen!', 'success');
+      
+      // Show success message
+      const totalSavings = resultsData.reduce((sum, result) => sum + result.compressionRatio, 0) / resultsData.length;
+      showSuccess(
+        `${files.length} Bild(er) erfolgreich komprimiert`,
+        `Durchschnittliche Ersparnis: ${Math.round(totalSavings)}%`
+      );
+
     } catch (error) {
       console.error('Compression failed:', error);
-      setCompressionError(error instanceof Error ? error.message : 'Komprimierung fehlgeschlagen');
+      
+      // Handle error with error handler
+      const errorInfo = errorHandler.handleCompressionError(error instanceof Error ? error : new Error('Unknown error'));
+      setCompressionError(errorInfo.message);
+      
+      // Update loading toast to error
+      updateLoading(loadingToastId, errorInfo.message, 'error');
+      
+      // Show error toast
+      showError(errorInfo);
     } finally {
       setIsCompressing(false);
     }

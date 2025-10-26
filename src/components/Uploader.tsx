@@ -3,6 +3,8 @@
 import { useCallback, useState, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Upload, X, AlertTriangle, Image as ImageIcon } from 'lucide-react';
+import { errorHandler } from '@/lib/errorHandler';
+import { useToast } from '@/hooks/useToast';
 
 interface UploaderProps {
   onFilesSelected: (files: File[]) => void;
@@ -27,6 +29,7 @@ export default function Uploader({
   const [uploadedFiles, setUploadedFiles] = useState<File[]>(existingFiles);
   const [dragCounter, setDragCounter] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { showError, showSuccess, showWarning } = useToast();
 
   const formatFileSize = (bytes: number): string => {
     if (bytes === 0) return '0 Bytes';
@@ -38,26 +41,40 @@ export default function Uploader({
 
   const handleFiles = useCallback((files: File[]) => {
     const validFiles: File[] = [];
-    const oversizedFiles: File[] = [];
+    const errors: string[] = [];
 
     files.forEach(file => {
-      if (file.size > maxSize) {
-        oversizedFiles.push(file);
+      // Validate file using error handler
+      const error = errorHandler.validateFile(file);
+      
+      if (error) {
+        showError(error);
+        errors.push(file.name);
       } else {
         validFiles.push(file);
       }
     });
 
-    if (oversizedFiles.length > 0) {
-      alert(`${oversizedFiles.length} Datei(en) sind zu groß (max. ${formatFileSize(maxSize)})`);
+    // Show summary if there were errors
+    if (errors.length > 0) {
+      showWarning(
+        `${errors.length} Datei(en) konnten nicht hochgeladen werden`,
+        `Fehlerhafte Dateien: ${errors.join(', ')}`
+      );
     }
 
+    // Add valid files
     if (validFiles.length > 0) {
       const newFiles = [...uploadedFiles, ...validFiles].slice(0, maxFiles);
       setUploadedFiles(newFiles);
       onFilesSelected(newFiles);
+      
+      showSuccess(
+        `${validFiles.length} Datei(en) erfolgreich hochgeladen`,
+        validFiles.length > 1 ? 'Bereit zur Komprimierung' : undefined
+      );
     }
-  }, [uploadedFiles, maxFiles, maxSize, onFilesSelected]);
+  }, [uploadedFiles, maxFiles, onFilesSelected, showError, showSuccess, showWarning]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     handleFiles(acceptedFiles);

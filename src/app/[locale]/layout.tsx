@@ -1,6 +1,9 @@
 import { Inter } from 'next/font/google';
 import '../globals.css';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import ToastProvider from '@/components/ToastProvider';
+import BrowserSupportCheck from '@/components/BrowserSupportCheck';
+import ErrorBoundary from '@/components/ErrorBoundary';
 import { getMessages, getLocaleFromPathname, isValidLocale } from '@/lib/i18n';
 import { notFound } from 'next/navigation';
 
@@ -132,9 +135,12 @@ export default async function LocaleLayout({
         />
       </head>
       <body className={inter.className}>
-        <div className="min-h-screen bg-gradient-to-br from-bg-light to-bg-gray">
-          {/* Header */}
-          <header className="bg-bg-light border-b border-border shadow-soft">
+        <ToastProvider />
+        <BrowserSupportCheck />
+        <ErrorBoundary>
+          <div className="min-h-screen bg-gradient-to-br from-bg-light to-bg-gray">
+            {/* Header */}
+            <header className="bg-bg-light border-b border-border shadow-soft">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between items-center h-16">
                 <div className="flex items-center space-x-2">
@@ -205,7 +211,8 @@ export default async function LocaleLayout({
               </div>
             </div>
           </footer>
-        </div>
+          </div>
+        </ErrorBoundary>
       </body>
     </html>
   );
