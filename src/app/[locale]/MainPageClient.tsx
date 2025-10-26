@@ -200,7 +200,8 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
               <ImagePreview
                 originalFile={image.original}
                 compressedFile={image.compressed}
-                messages={messages.preview}
+                onRecompress={handleCompress}
+                messages={messages}
               />
             </div>
           ))}

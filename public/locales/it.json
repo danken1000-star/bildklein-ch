@@ -24,12 +24,16 @@
     }
   },
   "preview": {
-    "title": "Anteprima",
+    "title": "Anteprima & Risultati",
     "original": "Originale",
     "compressed": "Comprimo",
     "size": "Dimensione",
     "savings": "Risparmio",
-    "dimensions": "Dimensioni"
+    "dimensions": "Dimensioni",
+    "recompress": "Ricomprimi",
+    "download": "Scarica",
+    "before": "Prima",
+    "after": "Dopo"
   },
   "download": {
     "title": "Download",

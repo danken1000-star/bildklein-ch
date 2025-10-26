@@ -31,12 +31,16 @@
     "useWebWorker": "Web Worker verwenden (schneller)"
   },
   "preview": {
-    "title": "Vorschau",
+    "title": "Vorschau & Ergebnisse",
     "original": "Original",
     "compressed": "Komprimiert",
     "size": "Größe",
     "savings": "Ersparnis",
-    "dimensions": "Abmessungen"
+    "dimensions": "Abmessungen",
+    "recompress": "Neu komprimieren",
+    "download": "Herunterladen",
+    "before": "Vorher",
+    "after": "Nachher"
   },
   "download": {
     "title": "Download",

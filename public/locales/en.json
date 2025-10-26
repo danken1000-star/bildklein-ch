@@ -24,12 +24,16 @@
     }
   },
   "preview": {
-    "title": "Preview",
+    "title": "Preview & Results",
     "original": "Original",
     "compressed": "Compressed",
     "size": "Size",
     "savings": "Savings",
-    "dimensions": "Dimensions"
+    "dimensions": "Dimensions",
+    "recompress": "Recompress",
+    "download": "Download",
+    "before": "Before",
+    "after": "After"
   },
   "download": {
     "title": "Download",

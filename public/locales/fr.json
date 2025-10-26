@@ -24,12 +24,16 @@
     }
   },
   "preview": {
-    "title": "Aperçu",
+    "title": "Aperçu & Résultats",
     "original": "Original",
     "compressed": "Comprimé",
     "size": "Taille",
     "savings": "Économies",
-    "dimensions": "Dimensions"
+    "dimensions": "Dimensions",
+    "recompress": "Recompresser",
+    "download": "Télécharger",
+    "before": "Avant",
+    "after": "Après"
   },
   "download": {
     "title": "Téléchargement",
