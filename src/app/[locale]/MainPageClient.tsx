@@ -31,16 +31,33 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
   const [isCompressing, setIsCompressing] = useState(false);
   const [compressionProgress, setCompressionProgress] = useState<CompressionProgress[]>([]);
   const [compressionError, setCompressionError] = useState<string | null>(null);
+  const [compressionResults, setCompressionResults] = useState<{
+    originalSize: number;
+    compressedSize: number;
+    compressionRatio: number;
+  }[]>([]);
 
-  const handleFilesSelected = async (selectedFiles: File[]) => {
+  const handleFilesSelected = (selectedFiles: File[]) => {
     setFiles(selectedFiles);
+    setCompressedImages([]);
+    setCompressionResults([]);
+    setCompressionError(null);
+  };
+
+  const handleOptionsChange = (newOptions: CompressionOptions) => {
+    setCompressionOptions(newOptions);
+  };
+
+  const handleCompress = async () => {
+    if (files.length === 0) return;
+    
     setIsCompressing(true);
     setCompressionError(null);
     setCompressionProgress([]);
     
     try {
       const compressedResults = await batchCompress(
-        selectedFiles, 
+        files, 
         compressionOptions,
         (progress) => {
           setCompressionProgress(prev => {
@@ -52,54 +69,25 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
       );
       
       // Create compressed images array
-      const results = selectedFiles.map((original, index) => ({
+      const results = files.map((original, index) => ({
         original,
         compressed: compressedResults[index] || original
       }));
       
       setCompressedImages(results);
+      
+      // Calculate compression results for display
+      const resultsData = results.map(({ original, compressed }) => ({
+        originalSize: original.size,
+        compressedSize: compressed.size,
+        compressionRatio: calculateCompressionRatio(original.size, compressed.size)
+      }));
+      setCompressionResults(resultsData);
     } catch (error) {
       console.error('Compression failed:', error);
       setCompressionError(error instanceof Error ? error.message : 'Komprimierung fehlgeschlagen');
     } finally {
       setIsCompressing(false);
-    }
-  };
-
-  const handleOptionsChange = async (newOptions: CompressionOptions) => {
-    setCompressionOptions(newOptions);
-    
-    if (files.length > 0) {
-      setIsCompressing(true);
-      setCompressionError(null);
-      setCompressionProgress([]);
-      
-      try {
-        const compressedResults = await batchCompress(
-          files, 
-          newOptions,
-          (progress) => {
-            setCompressionProgress(prev => {
-              const newProgress = [...prev];
-              newProgress[progress.fileIndex] = progress;
-              return newProgress;
-            });
-          }
-        );
-        
-        // Create compressed images array
-        const results = files.map((original, index) => ({
-          original,
-          compressed: compressedResults[index] || original
-        }));
-        
-        setCompressedImages(results);
-      } catch (error) {
-        console.error('Recompression failed:', error);
-        setCompressionError(error instanceof Error ? error.message : 'Neukomprimierung fehlgeschlagen');
-      } finally {
-        setIsCompressing(false);
-      }
     }
   };
 
@@ -131,8 +119,11 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
             <CompressSettings
               options={compressionOptions}
               onOptionsChange={handleOptionsChange}
+              onCompress={handleCompress}
               messages={messages.settings}
               files={files}
+              isCompressing={isCompressing}
+              compressionResults={compressionResults}
             />
         </div>
       )}
