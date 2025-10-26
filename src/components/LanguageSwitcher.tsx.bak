@@ -57,7 +57,6 @@ export default function LanguageSwitcher({ messages }: LanguageSwitcherProps) {
     // Update URL
     const newPath = pathname.replace(/^\/[^\/]*/, `/${locale}`);
     router.push(newPath);
-    router.refresh(); // Force reload to fetch new messages
     
     setCurrentLocale(locale);
     setIsOpen(false);
