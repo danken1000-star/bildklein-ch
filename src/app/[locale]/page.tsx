@@ -1,5 +1,5 @@
 import { getMessages, Locale } from '@/lib/i18n';
-import MainPageClient from './MainPageClient';
+import LandingPageClient from './LandingPageClient';
 
 interface MainPageProps {
   params: Promise<{
@@ -11,5 +11,5 @@ export default async function MainPage({ params }: MainPageProps) {
   const { locale } = await params;
   const messages = getMessages(locale);
 
-  return <MainPageClient messages={messages} />;
+  return <LandingPageClient messages={messages} locale={locale} />;
 }

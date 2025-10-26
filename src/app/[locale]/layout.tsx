@@ -31,12 +31,12 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
         <header className="bg-bg-light shadow-soft border-b border-border">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
-              <div className="flex items-center">
+              <a href={`/${locale}`} className="flex items-center hover:opacity-80 transition-opacity">
                 <h1 className="text-xl font-bold bg-gradient-to-r from-pink to-turquoise bg-clip-text text-transparent">
                   bildklein.ch
                 </h1>
                 <span className="ml-2 text-sm text-text-gray">🇨🇭</span>
-              </div>
+              </a>
               <LanguageSwitcher currentLocale={locale} />
             </div>
           </div>
