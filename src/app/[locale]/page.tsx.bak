@@ -9,7 +9,7 @@ interface MainPageProps {
 
 export default async function MainPage({ params }: MainPageProps) {
   const { locale } = await params;
-  const messages = await getMessages(locale);
+  const messages = getMessages(locale);
 
   return <LandingPageClient messages={messages} locale={locale} />;
 }
