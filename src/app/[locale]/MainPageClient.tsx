@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   batchCompress, 
   defaultOptions, 
@@ -20,9 +20,12 @@ import MobileBottomSheet from '@/components/MobileBottomSheet';
 import LoadingSkeleton, { UploadSkeleton, ProgressSkeleton } from '@/components/LoadingSkeleton';
 import EmptyState from '@/components/EmptyState';
 import { useMobile, useTouchDevice } from '@/hooks/useMobile';
+import { initializeAnalytics } from '@/lib/analytics';
 import { Settings } from 'lucide-react';
 import { errorHandler } from '@/lib/errorHandler';
 import { useToast } from '@/hooks/useToast';
+import { getFileFormat } from '@/lib/compression';
+import { trackCompression, getTotalImagesCompressed } from '@/lib/analytics';
 
 interface CompressedImage {
   original: File;
@@ -51,7 +54,14 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [showSettingsSheet, setShowSettingsSheet] = useState(false);
   const [isCancelled, setIsCancelled] = useState(false);
+  const [totalCompressed, setTotalCompressed] = useState(0);
   const { showError, showSuccess, showLoading, updateLoading } = useToast();
+
+  // Initialize analytics on mount
+  useEffect(() => {
+    initializeAnalytics();
+    setTotalCompressed(getTotalImagesCompressed());
+  }, []);
 
   const handleFilesSelected = (selectedFiles: File[]) => {
     setFiles(selectedFiles);
@@ -131,6 +141,13 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
       }));
       setCompressionResults(resultsData);
 
+      // Track analytics
+      results.forEach(({ original, compressed }) => {
+        const format = getFileFormat(original);
+        trackCompression(original.size, compressed.size, format);
+      });
+      setTotalCompressed(getTotalImagesCompressed());
+
       // Update loading toast to success
       updateLoading(loadingToastId, 'Komprimierung erfolgreich abgeschlossen!', 'success');
       
@@ -191,11 +208,21 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
       {/* Hero Section */}
       <div className="text-center">
         <h1 className="text-4xl font-bold text-text-dark mb-4">
-          {messages.title}
+          {messages.hero.headline}
         </h1>
-        <p className="text-xl text-text-gray max-w-2xl mx-auto">
-          {messages.description}
+        <p className="text-xl text-text-gray max-w-2xl mx-auto mb-6">
+          {messages.hero.subheadline}
         </p>
+        
+        {/* Analytics Counter */}
+        {totalCompressed > 0 && (
+          <div className="inline-flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-turquoise-50 to-pink-50 border border-turquoise-200 rounded-full">
+            <span className="text-2xl">🎉</span>
+            <span className="text-sm font-medium text-text-dark">
+              Über <span className="font-bold text-turquoise-600">{totalCompressed}</span> Bilder komprimiert
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Upload Section */}
