@@ -164,52 +164,63 @@ export default async function LocaleLayout({
           </main>
 
           {/* Footer */}
-          <footer className="bg-bg-light border-t border-border">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                  <h3 className="text-lg font-semibold text-text-dark mb-4">bildklein.ch</h3>
-                  <p className="text-sm text-text-gray">
-                    {messages.footer?.made || 'Made in Switzerland 🇨🇭 by'}{' '}
-                    <a 
-                      href="https://flow19.ch" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-turquoise-600 hover:text-turquoise-700 font-medium"
-                    >
-                      Flow19
-                    </a>
-                  </p>
-                </div>
-                
-                <div>
-                  <h4 className="text-sm font-semibold text-text-dark mb-3">Rechtliches</h4>
-                  <div className="space-y-2">
-                    <a href={`/${locale}/privacy`} className="block text-sm text-text-gray hover:text-turquoise-600 transition-colors">
-                      {messages.footer?.privacy || 'Datenschutz'}
-                    </a>
-                    <a href={`/${locale}/terms`} className="block text-sm text-text-gray hover:text-turquoise-600 transition-colors">
-                      {messages.footer?.terms || 'AGB'}
-                    </a>
-                    <a href={`/${locale}/contact`} className="block text-sm text-text-gray hover:text-turquoise-600 transition-colors">
-                      {messages.footer?.contact || 'Kontakt'}
-                    </a>
+          <footer className="bg-bg-light border-t border-border lg:sticky lg:bottom-0 lg:z-10 mt-16">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-6">
+              <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
+                {/* Logo & Tagline */}
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-r from-pink to-turquoise rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span className="text-white font-bold text-lg">B</span>
+                  </div>
+                  <div>
+                    <div className="flex items-center space-x-2">
+                      <span className="text-base lg:text-lg font-bold text-text-dark">bildklein.ch</span>
+                      <span className="text-xl">🇨🇭</span>
+                    </div>
+                    <p className="text-xs text-text-gray">Made in Switzerland</p>
                   </div>
                 </div>
 
-                <div>
-                  <h4 className="text-sm font-semibold text-text-dark mb-3">Features</h4>
-                  <ul className="text-sm text-text-gray space-y-1">
-                    <li>100% Privat & Sicher</li>
-                    <li>Keine Registrierung</li>
-                    <li>Alle Formate: JPG, PNG, WebP</li>
-                    <li>Swiss-made Quality</li>
-                  </ul>
+                {/* Social Proof - Hidden on mobile */}
+                <div className="hidden lg:block text-center">
+                  <p className="text-sm text-text-gray">
+                    <span className="font-semibold text-turquoise-600">∞</span> Bilder komprimiert heute
+                  </p>
+                </div>
+
+                {/* CTA Link */}
+                <div className="flex items-center space-x-4">
+                  <a 
+                    href="https://flow19.ch" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-xs lg:text-sm font-medium text-text-gray hover:text-turquoise-600 transition-colors flex items-center space-x-2"
+                  >
+                    <span>Built by</span>
+                    <span className="font-bold bg-gradient-to-r from-pink to-turquoise bg-clip-text text-transparent">
+                      flow19
+                    </span>
+                    <span className="text-xs">→</span>
+                  </a>
                 </div>
               </div>
-              
-              <div className="mt-8 pt-6 border-t border-border text-center text-sm text-text-gray">
-                <p>&copy; 2024 bildklein.ch. Alle Rechte vorbehalten.</p>
+
+              {/* Legal Links */}
+              <div className="mt-6 pt-4 border-t border-border flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
+                <div className="flex flex-wrap justify-center sm:justify-start items-center gap-3 sm:gap-6 text-xs text-text-gray">
+                  <a href={`/${locale}/impressum`} className="hover:text-turquoise-600 transition-colors whitespace-nowrap">
+                    Impressum
+                  </a>
+                  <span className="hidden sm:inline text-text-gray">•</span>
+                  <a href={`/${locale}/datenschutz`} className="hover:text-turquoise-600 transition-colors whitespace-nowrap">
+                    Datenschutz
+                  </a>
+                  <span className="hidden sm:inline text-text-gray">•</span>
+                  <span className="whitespace-nowrap">&copy; 2024 bildklein.ch</span>
+                </div>
+                <div className="text-xs text-text-gray whitespace-nowrap">
+                  Bern, Switzerland
+                </div>
               </div>
             </div>
           </footer>
