@@ -184,10 +184,10 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
         {/* Hero Section */}
         <div className="text-center">
           <h1 className="text-5xl font-extrabold text-text-dark mb-4 leading-tight">
-            {messages?.hero?.headline || "Bilder verkleinern"}
+            {messages.hero.headline}
           </h1>
           <p className="text-xl text-text-gray mb-8">
-            {messages?.hero?.subheadline || "Schnell, sicher, Swiss-made"}
+            {messages.hero.subheadline}
           </p>
         </div>
 
@@ -208,10 +208,10 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
       {/* Hero Section */}
       <div className="text-center">
         <h1 className="text-4xl font-bold text-text-dark mb-4">
-          {messages?.hero?.headline || "Bilder verkleinern"}
+          {messages.hero.headline}
         </h1>
         <p className="text-xl text-text-gray max-w-2xl mx-auto mb-6">
-          {messages?.hero?.subheadline || "Schnell, sicher, Swiss-made"}
+          {messages.hero.subheadline}
         </p>
         
         {/* Analytics Counter */}

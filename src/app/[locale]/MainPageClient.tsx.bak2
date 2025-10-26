@@ -187,7 +187,7 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
             {messages?.hero?.headline || "Bilder verkleinern"}
           </h1>
           <p className="text-xl text-text-gray mb-8">
-            {messages?.hero?.subheadline || "Schnell, sicher, Swiss-made"}
+            {messages.hero.subheadline}
           </p>
         </div>
 
@@ -211,7 +211,7 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
           {messages?.hero?.headline || "Bilder verkleinern"}
         </h1>
         <p className="text-xl text-text-gray max-w-2xl mx-auto mb-6">
-          {messages?.hero?.subheadline || "Schnell, sicher, Swiss-made"}
+          {messages.hero.subheadline}
         </p>
         
         {/* Analytics Counter */}

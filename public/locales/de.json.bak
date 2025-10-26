@@ -3,9 +3,7 @@
     "title": "Bilder kostenlos verkleinern",
     "subtitle": "Schnell, sicher, Swiss-made",
     "description": "Komprimiere deine Bilder ohne Qualitätsverlust. 100% kostenlos, 100% privat, 100% Swiss-made.",
-    "trust": "Über 10,000 Bilder täglich komprimiert",
-    "headline": "Bilder kostenlos verkleinern",
-    "subheadline": "Schnell, sicher, Swiss-made"
+    "trust": "Über 10,000 Bilder täglich komprimiert"
   },
   "features": {
     "title": "Warum bildklein.ch?",
@@ -47,7 +45,7 @@
     "maxDimensions": "Maximale Abmessungen (px)",
     "presets": {
       "high": "Hoch",
-      "medium": "Mittel",
+      "medium": "Mittel", 
       "low": "Niedrig",
       "webp": "WebP Format",
       "custom": "Benutzerdefiniert"
@@ -82,7 +80,7 @@
   },
   "language": {
     "de": "Deutsch",
-    "fr": "Français",
+    "fr": "Français", 
     "it": "Italiano",
     "en": "English"
   },

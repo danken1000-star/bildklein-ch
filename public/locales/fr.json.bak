@@ -3,9 +3,7 @@
     "title": "Réduire les images gratuitement",
     "subtitle": "Rapide, sécurisé, Swiss-made",
     "description": "Compressez vos images sans perte de qualité. 100% gratuit, 100% privé, 100% Swiss-made.",
-    "trust": "Plus de 10,000 images compressées quotidiennement",
-    "headline": "Réduire les images gratuitement",
-    "subheadline": "Rapide, sécurisé, Swiss-made"
+    "trust": "Plus de 10,000 images compressées quotidiennement"
   },
   "features": {
     "title": "Pourquoi bildklein.ch?",
@@ -48,7 +46,7 @@
     "presets": {
       "high": "Élevé",
       "medium": "Moyen",
-      "low": "Faible",
+      "low": "Faible", 
       "webp": "Format WebP",
       "custom": "Personnalisé"
     },
@@ -83,7 +81,7 @@
   "language": {
     "de": "Deutsch",
     "fr": "Français",
-    "it": "Italiano",
+    "it": "Italiano", 
     "en": "English"
   },
   "footer": {
