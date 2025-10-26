@@ -5,7 +5,11 @@
     "title": "Carica immagini",
     "subtitle": "Trascina le tue immagini qui o clicca per selezionare",
     "supportedFormats": "Formati supportati: JPG, PNG, WebP",
-    "maxSize": "Max. 10MB per immagine"
+    "maxSize": "Max. 25MB per immagine",
+    "selectFiles": "Seleziona file",
+    "uploadedImages": "Immagini caricate",
+    "removeAll": "Rimuovi tutto",
+    "fileTooLarge": "Troppo grande"
   },
   "settings": {
     "title": "Impostazioni di compressione",

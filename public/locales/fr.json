@@ -5,7 +5,11 @@
     "title": "Télécharger des images",
     "subtitle": "Glissez vos images ici ou cliquez pour sélectionner",
     "supportedFormats": "Formats supportés: JPG, PNG, WebP",
-    "maxSize": "Max. 10MB par image"
+    "maxSize": "Max. 25MB par image",
+    "selectFiles": "Sélectionner des fichiers",
+    "uploadedImages": "Images téléchargées",
+    "removeAll": "Tout supprimer",
+    "fileTooLarge": "Trop grand"
   },
   "settings": {
     "title": "Paramètres de compression",

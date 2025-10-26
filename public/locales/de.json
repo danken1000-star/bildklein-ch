@@ -5,7 +5,11 @@
     "title": "Bilder hochladen",
     "subtitle": "Ziehe deine Bilder hierher oder klicke zum Auswählen",
     "supportedFormats": "Unterstützte Formate: JPG, PNG, WebP",
-    "maxSize": "Max. 10MB pro Bild"
+    "maxSize": "Max. 25MB pro Bild",
+    "selectFiles": "Dateien auswählen",
+    "uploadedImages": "Hochgeladene Bilder",
+    "removeAll": "Alle entfernen",
+    "fileTooLarge": "Zu groß"
   },
   "settings": {
     "title": "Komprimierungseinstellungen",

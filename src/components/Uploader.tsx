@@ -1,7 +1,8 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { Upload, X, AlertTriangle, Image as ImageIcon } from 'lucide-react';
 
 interface UploaderProps {
   onFilesSelected: (files: File[]) => void;
@@ -9,70 +10,233 @@ interface UploaderProps {
   maxSize?: number;
   acceptedFormats?: string[];
   messages: any;
+  showPreviews?: boolean;
+  existingFiles?: File[];
 }
 
 export default function Uploader({
   onFilesSelected,
   maxFiles = 10,
-  maxSize = 10 * 1024 * 1024, // 10MB
+  maxSize = 25 * 1024 * 1024, // 25MB
   acceptedFormats = ['image/jpeg', 'image/png', 'image/webp'],
-  messages
+  messages,
+  showPreviews = true,
+  existingFiles = []
 }: UploaderProps) {
   const [isDragActive, setIsDragActive] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>(existingFiles);
+  const [dragCounter, setDragCounter] = useState(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const formatFileSize = (bytes: number): string => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
+  const handleFiles = useCallback((files: File[]) => {
+    const validFiles: File[] = [];
+    const oversizedFiles: File[] = [];
+
+    files.forEach(file => {
+      if (file.size > maxSize) {
+        oversizedFiles.push(file);
+      } else {
+        validFiles.push(file);
+      }
+    });
+
+    if (oversizedFiles.length > 0) {
+      alert(`${oversizedFiles.length} Datei(en) sind zu groß (max. ${formatFileSize(maxSize)})`);
+    }
+
+    if (validFiles.length > 0) {
+      const newFiles = [...uploadedFiles, ...validFiles].slice(0, maxFiles);
+      setUploadedFiles(newFiles);
+      onFilesSelected(newFiles);
+    }
+  }, [uploadedFiles, maxFiles, maxSize, onFilesSelected]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    onFilesSelected(acceptedFiles);
+    handleFiles(acceptedFiles);
     setIsDragActive(false);
-  }, [onFilesSelected]);
+    setDragCounter(0);
+  }, [handleFiles]);
+
+  const onDragEnter = useCallback(() => {
+    setDragCounter(prev => prev + 1);
+    if (dragCounter === 0) {
+      setIsDragActive(true);
+    }
+  }, [dragCounter]);
+
+  const onDragLeave = useCallback(() => {
+    setDragCounter(prev => prev - 1);
+    if (dragCounter === 1) {
+      setIsDragActive(false);
+    }
+  }, [dragCounter]);
+
+  const onDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+  }, []);
 
   const { getRootProps, getInputProps, isDragReject } = useDropzone({
     onDrop,
-    onDragEnter: () => setIsDragActive(true),
-    onDragLeave: () => setIsDragActive(false),
+    onDragEnter,
+    onDragLeave,
+    onDragOver,
     accept: {
       'image/*': ['.jpeg', '.jpg', '.png', '.webp']
     },
     maxFiles,
     maxSize,
-    multiple: true
+    multiple: true,
+    noClick: true,
+    noKeyboard: true
   });
 
+  const handleClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    handleFiles(files);
+  };
+
+  const removeFile = (index: number) => {
+    const newFiles = uploadedFiles.filter((_, i) => i !== index);
+    setUploadedFiles(newFiles);
+    onFilesSelected(newFiles);
+  };
+
+  const isFileOversized = (file: File) => file.size > maxSize;
+
   return (
-    <div
-      {...getRootProps()}
-      className={`
-        relative border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all duration-200
-        ${isDragActive 
-          ? 'border-turquoise bg-turquoise-50' 
-          : isDragReject 
-            ? 'border-pink-300 bg-pink-50' 
-            : 'border-border hover:border-turquoise hover:bg-bg-light'
-        }
-      `}
-    >
-      <input {...getInputProps()} />
-      
-      <div className="space-y-4">
-        <div className="mx-auto w-16 h-16 bg-gradient-to-br from-pink-100 to-turquoise-100 rounded-full flex items-center justify-center">
-          <svg className="w-8 h-8 text-turquoise-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-          </svg>
-        </div>
+    <div className="space-y-6">
+      {/* Upload Area */}
+      <div
+        {...getRootProps()}
+        onClick={handleClick}
+        className={`
+          relative border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all duration-300
+          ${isDragActive 
+            ? 'border-turquoise bg-gradient-to-br from-turquoise-50 to-pink-50 scale-105 shadow-soft-lg' 
+            : isDragReject 
+              ? 'border-pink-300 bg-pink-50' 
+              : 'border-border hover:border-turquoise hover:bg-gradient-to-br hover:from-bg-light hover:to-turquoise-50 hover:shadow-soft'
+          }
+        `}
+      >
+        <input 
+          {...getInputProps()} 
+          ref={fileInputRef}
+          onChange={handleFileInput}
+          className="hidden"
+          accept=".jpg,.jpeg,.png,.webp"
+        />
         
-        <div>
-          <h3 className="text-lg font-semibold text-text-dark">
-            {messages.upload.title}
-          </h3>
-          <p className="text-text-gray mt-1">
-            {messages.upload.subtitle}
-          </p>
-        </div>
-        
-        <div className="text-sm text-text-gray space-y-1">
-          <p>{messages.upload.supportedFormats}</p>
-          <p>{messages.upload.maxSize}</p>
+        <div className="space-y-6">
+          <div className="mx-auto w-20 h-20 bg-gradient-to-br from-pink-100 to-turquoise-100 rounded-full flex items-center justify-center">
+            <Upload className="w-10 h-10 text-turquoise-600" />
+          </div>
+          
+          <div>
+            <h3 className="text-2xl font-bold text-text-dark mb-2">
+              {messages.upload.title}
+            </h3>
+            <p className="text-lg text-text-gray mb-4">
+              {messages.upload.subtitle}
+            </p>
+            <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-pink to-turquoise text-white rounded-full text-sm font-medium">
+              Dateien auswählen
+            </div>
+          </div>
+          
+          <div className="text-sm text-text-gray space-y-1">
+            <p>{messages.upload.supportedFormats}</p>
+            <p>Max. {formatFileSize(maxSize)} pro Bild</p>
+            <p>Bis zu {maxFiles} Bilder gleichzeitig</p>
+          </div>
         </div>
       </div>
+
+      {/* File Previews */}
+      {showPreviews && uploadedFiles.length > 0 && (
+        <div className="space-y-4">
+          <h4 className="text-lg font-semibold text-text-dark">
+            Hochgeladene Bilder ({uploadedFiles.length})
+          </h4>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {uploadedFiles.map((file, index) => (
+              <div
+                key={`${file.name}-${index}`}
+                className="relative bg-bg-light rounded-xl border border-border p-4 shadow-soft hover:shadow-soft-lg transition-all duration-200"
+              >
+                {/* Remove Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeFile(index);
+                  }}
+                  className="absolute -top-2 -right-2 w-6 h-6 bg-pink-500 text-white rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+
+                {/* File Info */}
+                <div className="space-y-3">
+                  {/* Thumbnail */}
+                  <div className="aspect-square bg-bg-gray rounded-lg overflow-hidden">
+                    <img
+                      src={URL.createObjectURL(file)}
+                      alt={file.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  {/* File Details */}
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium text-text-dark truncate" title={file.name}>
+                      {file.name}
+                    </p>
+                    <p className="text-xs text-text-gray">
+                      {formatFileSize(file.size)}
+                    </p>
+                    
+                    {/* Warning for oversized files */}
+                    {isFileOversized(file) && (
+                      <div className="flex items-center space-x-1 text-xs text-pink-600">
+                        <AlertTriangle className="w-3 h-3" />
+                        <span>Zu groß</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Clear All Button */}
+          {uploadedFiles.length > 1 && (
+            <div className="text-center">
+              <button
+                onClick={() => {
+                  setUploadedFiles([]);
+                  onFilesSelected([]);
+                }}
+                className="px-4 py-2 text-sm text-text-gray hover:text-pink-600 transition-colors"
+              >
+                Alle entfernen
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

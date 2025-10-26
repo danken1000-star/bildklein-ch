@@ -65,6 +65,8 @@ export default function LandingPageClient({ messages, locale }: LandingPageClien
             <Uploader
               onFilesSelected={handleFilesSelected}
               messages={messages.upload}
+              showPreviews={false}
+              maxFiles={5}
             />
           </div>
 
@@ -121,6 +123,8 @@ export default function LandingPageClient({ messages, locale }: LandingPageClien
             <Uploader
               onFilesSelected={handleFilesSelected}
               messages={messages.upload}
+              showPreviews={false}
+              maxFiles={5}
             />
           </div>
         </div>

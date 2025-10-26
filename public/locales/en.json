@@ -5,7 +5,11 @@
     "title": "Upload Images",
     "subtitle": "Drag your images here or click to select",
     "supportedFormats": "Supported formats: JPG, PNG, WebP",
-    "maxSize": "Max. 10MB per image"
+    "maxSize": "Max. 25MB per image",
+    "selectFiles": "Select Files",
+    "uploadedImages": "Uploaded Images",
+    "removeAll": "Remove All",
+    "fileTooLarge": "Too Large"
   },
   "settings": {
     "title": "Compression Settings",
