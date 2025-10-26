@@ -1,5 +1,6 @@
 # bildklein.ch 🇨🇭
 
+![bildklein.ch Screenshot](https://github.com/user-attachments/assets/65ef1305-38b5-425d-bd85-7d15dea32793)
 
 > Swiss Image Compression Tool - Kostenlos, sicher, blitzschnell.
 
