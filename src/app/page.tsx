@@ -1,6 +1,15 @@
-import { redirect } from 'next/navigation';
+import { getMessages, Locale } from '@/lib/i18n';
+import LandingPageClient from './LandingPageClient';
 
-export default function RootPage() {
-  // Redirect to German as default locale
-  redirect('/de');
+interface MainPageProps {
+  params: Promise<{
+    locale: Locale;
+  }>;
+}
+
+export default async function MainPage({ params }: MainPageProps) {
+  const { locale } = await params;
+  const messages = await getMessages(locale);
+
+  return <LandingPageClient messages={messages} locale={locale} />;
 }
