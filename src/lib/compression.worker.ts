@@ -257,3 +257,4 @@ self.onmessage = async function(e: MessageEvent<CompressionMessage>) {
 
 // Export types for main thread
 export type { CompressionMessage, ProgressMessage, CompressionOptions };
+

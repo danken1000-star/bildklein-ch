@@ -144,3 +144,4 @@ export function resetAnalytics(): void {
     console.error('Failed to reset analytics:', error);
   }
 }
+

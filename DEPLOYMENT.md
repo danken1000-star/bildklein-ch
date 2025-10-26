@@ -66,3 +66,4 @@ Or via Vercel dashboard: Deployments → Previous deployment → Promote to Prod
 ## Contact
 
 For issues, contact: Flow19 Webdesign (Bern, Switzerland)
+

@@ -17,3 +17,4 @@ export default function BrowserSupportCheck() {
 
   return null; // This component doesn't render anything
 }
+

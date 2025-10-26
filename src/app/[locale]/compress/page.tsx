@@ -13,3 +13,4 @@ export default async function CompressPage({ params }: CompressPageProps) {
 
   return <MainPageClient messages={messages} />;
 }
+

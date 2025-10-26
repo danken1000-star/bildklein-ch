@@ -207,3 +207,4 @@ export function destroyCompressionWorkerManager() {
     workerManager = null;
   }
 }
+
