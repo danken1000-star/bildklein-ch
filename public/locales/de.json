@@ -20,8 +20,15 @@
       "high": "Hoch",
       "medium": "Mittel", 
       "low": "Niedrig",
+      "webp": "WebP Format",
       "custom": "Benutzerdefiniert"
-    }
+    },
+    "autoOptimize": "Auto-Optimieren",
+    "autoOptimizeDesc": "Automatische Einstellungen basierend auf deinen Bildern",
+    "outputFormat": "Ausgabeformat",
+    "formatDescription": "WebP bietet die beste Komprimierung, JPG ist am kompatibelsten",
+    "advancedOptions": "Erweiterte Optionen",
+    "useWebWorker": "Web Worker verwenden (schneller)"
   },
   "preview": {
     "title": "Vorschau",
