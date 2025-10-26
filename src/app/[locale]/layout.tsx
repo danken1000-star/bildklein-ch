@@ -3,6 +3,7 @@ import '../globals.css';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import ToastProvider from '@/components/ToastProvider';
 import BrowserSupportCheck from '@/components/BrowserSupportCheck';
+import OfflineIndicator from '@/components/OfflineIndicator';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { getMessages, getLocaleFromPathname, isValidLocale } from '@/lib/i18n';
 import { notFound } from 'next/navigation';
@@ -137,6 +138,7 @@ export default async function LocaleLayout({
       <body className={inter.className}>
         <ToastProvider />
         <BrowserSupportCheck />
+        <OfflineIndicator />
         <ErrorBoundary>
           <div className="min-h-screen bg-gradient-to-br from-bg-light to-bg-gray">
             {/* Header */}

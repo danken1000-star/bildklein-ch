@@ -18,6 +18,7 @@ import DownloadButton from '@/components/DownloadButton';
 import CompressionProgress from '@/components/CompressionProgress';
 import MobileBottomSheet from '@/components/MobileBottomSheet';
 import LoadingSkeleton, { UploadSkeleton, ProgressSkeleton } from '@/components/LoadingSkeleton';
+import EmptyState from '@/components/EmptyState';
 import { useMobile, useTouchDevice } from '@/hooks/useMobile';
 import { Settings } from 'lucide-react';
 import { errorHandler } from '@/lib/errorHandler';
@@ -49,6 +50,7 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
   }[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showSettingsSheet, setShowSettingsSheet] = useState(false);
+  const [isCancelled, setIsCancelled] = useState(false);
   const { showError, showSuccess, showLoading, updateLoading } = useToast();
 
   const handleFilesSelected = (selectedFiles: File[]) => {
@@ -64,6 +66,19 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
     setCompressionResults([]);
     setCompressionError(null);
     setCompressionProgress([]);
+    setIsCancelled(false);
+  };
+
+  const handleCancel = () => {
+    setIsCancelled(true);
+    setIsCompressing(false);
+    setCompressionProgress([]);
+    showError({
+      type: 'compression_failed',
+      message: 'Komprimierung abgebrochen',
+      details: 'Die Komprimierung wurde vom Benutzer abgebrochen',
+      retryable: true
+    });
   };
 
   const handleOptionsChange = (newOptions: CompressionOptions) => {
@@ -144,6 +159,32 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
   };
 
   const compressedFiles = compressedImages.map(img => img.compressed);
+
+  // Show empty state if no files
+  if (files.length === 0 && !isCompressing) {
+    return (
+      <div className="space-y-8">
+        {/* Hero Section */}
+        <div className="text-center">
+          <h1 className="text-5xl font-extrabold text-text-dark mb-4 leading-tight">
+            {messages.hero.headline}
+          </h1>
+          <p className="text-xl text-text-gray mb-8">
+            {messages.hero.subheadline}
+          </p>
+        </div>
+
+        {/* Empty State */}
+        <div className="max-w-4xl mx-auto">
+          <EmptyState
+            message="Noch keine Bilder hochgeladen"
+            subMessage="Ziehe Bilder hierher oder klicke zum Auswählen. Unterstützte Formate: JPG, PNG, WebP"
+            icon="upload"
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -238,6 +279,8 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
             <CompressionProgress 
               progress={compressionProgress}
               totalFiles={files.length}
+              onCancel={handleCancel}
+              isCancellable={true}
             />
           )}
         </div>

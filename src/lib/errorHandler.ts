@@ -1,8 +1,14 @@
 export interface ErrorInfo {
-  type: 'file_too_large' | 'unsupported_format' | 'compression_failed' | 'browser_not_supported' | 'network_error' | 'unknown';
+  type: 'file_too_large' | 'unsupported_format' | 'compression_failed' | 'browser_not_supported' | 'network_error' | 'unknown' | 'duplicate_file' | 'large_image';
   message: string;
   details?: string;
   retryable?: boolean;
+}
+
+export interface WarningInfo {
+  type: 'large_image' | 'offline_mode' | 'slow_connection';
+  message: string;
+  details?: string;
 }
 
 export class ErrorHandler {
@@ -13,7 +19,15 @@ export class ErrorHandler {
     compression_failed: 'Komprimierung fehlgeschlagen. Bitte erneut versuchen.',
     browser_not_supported: 'Bitte nutze einen modernen Browser (Chrome, Firefox, Safari)',
     network_error: 'Netzwerkfehler. Bitte überprüfe deine Internetverbindung.',
+    duplicate_file: 'Datei bereits hochgeladen',
+    large_image: 'Große Bilder können länger dauern',
     unknown: 'Ein unbekannter Fehler ist aufgetreten.'
+  };
+
+  private warningMessages: Record<string, string> = {
+    large_image: 'Große Bilder können länger dauern',
+    offline_mode: 'Offline - Komprimierung funktioniert trotzdem!',
+    slow_connection: 'Langsame Verbindung erkannt'
   };
 
   private constructor() {}
@@ -49,6 +63,38 @@ export class ErrorHandler {
     }
 
     return null;
+  }
+
+  checkForLargeImage(file: File): WarningInfo | null {
+    // Consider image large if > 10MB or > 10MP (estimate)
+    const largeSizeThreshold = 10 * 1024 * 1024; // 10MB
+    if (file.size > largeSizeThreshold) {
+      return {
+        type: 'large_image',
+        message: this.warningMessages.large_image,
+        details: `Bildgröße: ${this.formatFileSize(file.size)}`
+      };
+    }
+    return null;
+  }
+
+  checkOfflineMode(): WarningInfo | null {
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      return {
+        type: 'offline_mode',
+        message: this.warningMessages.offline_mode,
+        details: 'Alle Funktionen arbeiten im Offline-Modus'
+      };
+    }
+    return null;
+  }
+
+  checkForDuplicate(existingFiles: File[], newFile: File): boolean {
+    return existingFiles.some(file => 
+      file.name === newFile.name && 
+      file.size === newFile.size &&
+      file.lastModified === newFile.lastModified
+    );
   }
 
   validateBrowserSupport(): ErrorInfo | null {

@@ -2,18 +2,22 @@
 
 import { useState, useEffect } from 'react';
 import type { CompressionProgress } from '@/lib/compression';
-import { CheckCircle, AlertCircle, Loader2, Image as ImageIcon } from 'lucide-react';
+import { CheckCircle, AlertCircle, Loader2, Image as ImageIcon, X } from 'lucide-react';
 
 interface CompressionProgressProps {
   progress: CompressionProgress[];
   totalFiles: number;
   className?: string;
+  onCancel?: () => void;
+  isCancellable?: boolean;
 }
 
 export default function CompressionProgress({ 
   progress, 
   totalFiles, 
-  className = '' 
+  className = '',
+  onCancel,
+  isCancellable = false
 }: CompressionProgressProps) {
   const [completedFiles, setCompletedFiles] = useState(0);
   const [errorFiles, setErrorFiles] = useState(0);
@@ -54,9 +58,20 @@ export default function CompressionProgress({
             <span className="text-sm font-medium">Fertig!</span>
           </div>
         ) : (
-          <div className="flex items-center space-x-2 text-turquoise-600">
-            <Loader2 className="w-6 h-6 animate-spin" />
-            <span className="text-sm font-medium">{overallProgress}%</span>
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 text-turquoise-600">
+              <Loader2 className="w-6 h-6 animate-spin" />
+              <span className="text-sm font-medium">{overallProgress}%</span>
+            </div>
+            {isCancellable && onCancel && (
+              <button
+                onClick={onCancel}
+                className="flex items-center space-x-2 px-3 py-1.5 bg-bg-gray text-text-gray rounded-lg hover:bg-border hover:text-text-dark transition-all duration-200 text-sm font-medium"
+              >
+                <X className="w-4 h-4" />
+                <span>Abbrechen</span>
+              </button>
+            )}
           </div>
         )}
       </div>

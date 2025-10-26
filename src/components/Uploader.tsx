@@ -43,7 +43,25 @@ export default function Uploader({
     const validFiles: File[] = [];
     const errors: string[] = [];
 
+    // Check for offline mode
+    const offlineWarning = errorHandler.checkOfflineMode();
+    if (offlineWarning) {
+      showWarning(offlineWarning.message, offlineWarning.details);
+    }
+
     files.forEach(file => {
+      // Check for duplicate files
+      if (errorHandler.checkForDuplicate(uploadedFiles, file)) {
+        showError({
+          type: 'duplicate_file',
+          message: 'Datei bereits hochgeladen',
+          details: file.name,
+          retryable: false
+        });
+        errors.push(file.name);
+        return;
+      }
+
       // Validate file using error handler
       const error = errorHandler.validateFile(file);
       
@@ -51,6 +69,11 @@ export default function Uploader({
         showError(error);
         errors.push(file.name);
       } else {
+        // Check for large images
+        const largeImageWarning = errorHandler.checkForLargeImage(file);
+        if (largeImageWarning) {
+          showWarning(largeImageWarning.message, largeImageWarning.details);
+        }
         validFiles.push(file);
       }
     });

@@ -112,3 +112,23 @@ export function UploadSkeleton({ className = '' }: { className?: string }) {
     </div>
   );
 }
+
+export function FileListSkeleton({ className = '', count = 3 }: { className?: string; count?: number }) {
+  return (
+    <div className={`space-y-3 ${className}`}>
+      {[...Array(count)].map((_, i) => (
+        <div key={i} className="flex items-center space-x-4 p-4 bg-bg-light rounded-lg border border-border">
+          <LoadingSkeleton width={80} height={80} rounded className="flex-shrink-0" />
+          <div className="flex-1 space-y-2">
+            <LoadingSkeleton width="70%" height={16} />
+            <LoadingSkeleton width="50%" height={14} />
+            <div className="flex space-x-2">
+              <LoadingSkeleton width={60} height={24} rounded />
+              <LoadingSkeleton width={40} height={24} rounded />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
