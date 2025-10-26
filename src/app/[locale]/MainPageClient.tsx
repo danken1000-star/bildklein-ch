@@ -44,6 +44,14 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
     setCompressionError(null);
   };
 
+  const handleReset = () => {
+    setFiles([]);
+    setCompressedImages([]);
+    setCompressionResults([]);
+    setCompressionError(null);
+    setCompressionProgress([]);
+  };
+
   const handleOptionsChange = (newOptions: CompressionOptions) => {
     setCompressionOptions(newOptions);
   };
@@ -217,6 +225,7 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
             </h3>
             <DownloadButton
               files={compressedFiles}
+              onReset={handleReset}
               messages={messages.download}
             />
           </div>

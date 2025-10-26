@@ -46,7 +46,10 @@
     "title": "Download",
     "downloadAll": "Alle herunterladen",
     "downloadSingle": "Herunterladen",
-    "preparing": "Vorbereitung..."
+    "downloadZip": "Als ZIP herunterladen",
+    "compressMore": "Weitere Bilder komprimieren",
+    "preparing": "ZIP wird erstellt...",
+    "downloading": "Wird heruntergeladen..."
   },
   "language": {
     "de": "Deutsch",

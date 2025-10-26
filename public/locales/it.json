@@ -39,7 +39,10 @@
     "title": "Download",
     "downloadAll": "Scarica tutto",
     "downloadSingle": "Scarica",
-    "preparing": "Preparazione..."
+    "downloadZip": "Scarica come ZIP",
+    "compressMore": "Comprimi più immagini",
+    "preparing": "Creazione ZIP...",
+    "downloading": "Download in corso..."
   },
   "language": {
     "de": "Deutsch",
