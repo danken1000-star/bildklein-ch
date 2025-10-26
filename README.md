@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # bildklein.ch
 
 Eine neue Website für bildklein.ch - ein unabhängiges Projekt.
@@ -59,3 +60,7 @@ Das Projekt ist bereit für Deployment auf:
 
 **Erstellt am**: 23. Januar 2025
 **Status**: In Entwicklung
+=======
+# bildklein-ch
+Swiss Image Compression Tool - Made with ❤️ in Bern
+>>>>>>> 3f0af0c4768a2d825ef2911d165848c91acb69e7
