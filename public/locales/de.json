@@ -1,11 +1,28 @@
 {
-  "title": "bildklein.ch - Bilder kostenlos verkleinern",
-  "description": "Schnell, sicher, Swiss-made. Komprimiere deine Bilder kostenlos und privat.",
-  "upload": {
+  "hero": {
+    "title": "Bilder kostenlos verkleinern",
+    "subtitle": "Schnell, sicher, Swiss-made",
+    "description": "Komprimiere deine Bilder ohne Qualitätsverlust. 100% kostenlos, 100% privat, 100% Swiss-made.",
+    "trust": "Über 10,000 Bilder täglich komprimiert"
+  },
+  "features": {
+    "title": "Warum bildklein.ch?",
+    "private": {
+      "title": "100% Privat",
+      "description": "Deine Bilder bleiben auf deinem Gerät. Keine Uploads, keine Speicherung."
+    },
+    "fast": {
+      "title": "Blitzschnell",
+      "description": "Komprimierung in Sekunden mit modernster Technologie."
+    },
+    "quality": {
+      "title": "Swiss Quality",
+      "description": "Präzision und Zuverlässigkeit - wie die Schweizer Uhren."
+    }
+  },
+  "uploader": {
     "title": "Bilder hochladen",
-    "subtitle": "Ziehe deine Bilder hierher oder klicke zum Auswählen",
-    "supportedFormats": "Unterstützte Formate: JPG, PNG, WebP",
-    "maxSize": "Max. 25MB pro Bild",
+    "dragDrop": "Bilder hierher ziehen oder klicken",
     "selectFiles": "Dateien auswählen",
     "uploadedImages": "Hochgeladene Bilder",
     "removeAll": "Alle entfernen",
@@ -58,8 +75,14 @@
     "en": "English"
   },
   "footer": {
-    "madeInSwitzerland": "Made in Switzerland 🇨🇭",
+    "made": "Made in Switzerland 🇨🇭 by",
     "privacy": "Datenschutz",
-    "imprint": "Impressum"
+    "terms": "AGB",
+    "contact": "Kontakt"
+  },
+  "seo": {
+    "title": "Bilder verkleinern kostenlos - bildklein.ch",
+    "description": "Komprimiere JPG, PNG, WebP Bilder kostenlos online. 100% sicher, keine Registrierung. Made in Switzerland.",
+    "keywords": "bilder verkleinern, bilder komprimieren, image compression, swiss, kostenlos, online"
   }
 }

@@ -1,27 +1,51 @@
 {
-  "title": "bildklein.ch - Réduire les images gratuitement",
-  "description": "Rapide, sécurisé, Swiss-made. Compressez vos images gratuitement et en privé.",
-  "upload": {
+  "hero": {
+    "title": "Réduire les images gratuitement",
+    "subtitle": "Rapide, sécurisé, Swiss-made",
+    "description": "Compressez vos images sans perte de qualité. 100% gratuit, 100% privé, 100% Swiss-made.",
+    "trust": "Plus de 10,000 images compressées quotidiennement"
+  },
+  "features": {
+    "title": "Pourquoi bildklein.ch?",
+    "private": {
+      "title": "100% Privé",
+      "description": "Vos images restent sur votre appareil. Aucun upload, aucun stockage."
+    },
+    "fast": {
+      "title": "Ultra-rapide",
+      "description": "Compression en secondes avec la technologie la plus moderne."
+    },
+    "quality": {
+      "title": "Qualité Suisse",
+      "description": "Précision et fiabilité - comme les montres suisses."
+    }
+  },
+  "uploader": {
     "title": "Télécharger des images",
-    "subtitle": "Glissez vos images ici ou cliquez pour sélectionner",
-    "supportedFormats": "Formats supportés: JPG, PNG, WebP",
-    "maxSize": "Max. 25MB par image",
+    "dragDrop": "Glissez vos images ici ou cliquez",
     "selectFiles": "Sélectionner des fichiers",
     "uploadedImages": "Images téléchargées",
     "removeAll": "Tout supprimer",
-    "fileTooLarge": "Trop grand"
+    "fileTooLarge": "Trop volumineux"
   },
   "settings": {
     "title": "Paramètres de compression",
     "quality": "Qualité",
-    "maxSize": "Taille maximale du fichier (MB)",
+    "maxSize": "Taille maximale (MB)",
     "maxDimensions": "Dimensions maximales (px)",
     "presets": {
       "high": "Élevé",
       "medium": "Moyen",
       "low": "Faible", 
+      "webp": "Format WebP",
       "custom": "Personnalisé"
-    }
+    },
+    "autoOptimize": "Auto-optimiser",
+    "autoOptimizeDesc": "Paramètres automatiques basés sur vos images",
+    "outputFormat": "Format de sortie",
+    "formatDescription": "WebP offre la meilleure compression, JPG est le plus compatible",
+    "advancedOptions": "Options avancées",
+    "useWebWorker": "Utiliser Web Worker (plus rapide)"
   },
   "preview": {
     "title": "Aperçu & Résultats",
@@ -51,8 +75,14 @@
     "en": "English"
   },
   "footer": {
-    "madeInSwitzerland": "Made in Switzerland 🇨🇭",
+    "made": "Made in Switzerland 🇨🇭 by",
     "privacy": "Confidentialité",
-    "imprint": "Mentions légales"
+    "terms": "CGU",
+    "contact": "Contact"
+  },
+  "seo": {
+    "title": "Réduire les images gratuitement - bildklein.ch",
+    "description": "Compressez JPG, PNG, WebP images gratuitement en ligne. 100% sécurisé, pas d'inscription. Made in Switzerland.",
+    "keywords": "réduire images, compresser images, image compression, suisse, gratuit, en ligne"
   }
 }
