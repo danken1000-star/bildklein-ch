@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Upload, Shield, Zap, Heart, Flag } from 'lucide-react';
 import { Locale } from '@/lib/i18n';
 import Uploader from '@/components/Uploader';
+import MobileUploader from '@/components/MobileUploader';
+import { useMobile } from '@/hooks/useMobile';
 
 interface LandingPageClientProps {
   messages: any;
@@ -12,6 +14,7 @@ interface LandingPageClientProps {
 }
 
 export default function LandingPageClient({ messages, locale }: LandingPageClientProps) {
+  const { isMobile } = useMobile();
   const [files, setFiles] = useState<File[]>([]);
   const router = useRouter();
 
@@ -45,10 +48,10 @@ export default function LandingPageClient({ messages, locale }: LandingPageClien
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8">
+      <section className={`relative px-4 sm:px-6 lg:px-8 ${isMobile ? 'py-12' : 'py-20'}`}>
         <div className="max-w-4xl mx-auto text-center">
           {/* Main Headline */}
-          <h1 className="text-5xl md:text-6xl font-bold text-text-dark mb-6">
+          <h1 className={`font-bold text-text-dark mb-6 ${isMobile ? 'text-3xl' : 'text-5xl md:text-6xl'}`}>
             Bilder kostenlos{' '}
             <span className="bg-gradient-to-r from-pink to-turquoise bg-clip-text text-transparent">
               verkleinern
@@ -56,18 +59,28 @@ export default function LandingPageClient({ messages, locale }: LandingPageClien
           </h1>
           
           {/* Subheadline */}
-          <p className="text-xl md:text-2xl text-text-gray mb-8 max-w-2xl mx-auto">
+          <p className={`text-text-gray mb-8 max-w-2xl mx-auto ${isMobile ? 'text-lg' : 'text-xl md:text-2xl'}`}>
             Schnell, sicher, Swiss-made
           </p>
 
           {/* Upload Area */}
-          <div className="max-w-2xl mx-auto mb-8">
-            <Uploader
-              onFilesSelected={handleFilesSelected}
-              messages={messages.upload}
-              showPreviews={false}
-              maxFiles={5}
-            />
+          <div className={`mx-auto mb-8 ${isMobile ? 'max-w-full' : 'max-w-2xl'}`}>
+            {isMobile ? (
+              <MobileUploader
+                onFilesSelected={handleFilesSelected}
+                messages={messages.uploader}
+                showPreviews={false}
+                maxFiles={5}
+                isMobile={isMobile}
+              />
+            ) : (
+              <Uploader
+                onFilesSelected={handleFilesSelected}
+                messages={messages.upload}
+                showPreviews={false}
+                maxFiles={5}
+              />
+            )}
           </div>
 
           {/* Trust Message */}
@@ -78,30 +91,30 @@ export default function LandingPageClient({ messages, locale }: LandingPageClien
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-bg-light">
+      <section className={`bg-bg-light ${isMobile ? 'py-12' : 'py-20'}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-text-dark mb-4">
+          <div className={`text-center ${isMobile ? 'mb-8' : 'mb-16'}`}>
+            <h2 className={`font-bold text-text-dark mb-4 ${isMobile ? 'text-2xl' : 'text-3xl md:text-4xl'}`}>
               Warum bildklein.ch?
             </h2>
-            <p className="text-lg text-text-gray max-w-2xl mx-auto">
+            <p className={`text-text-gray max-w-2xl mx-auto ${isMobile ? 'text-base' : 'text-lg'}`}>
               Die beste Lösung für Bildkomprimierung - entwickelt in der Schweiz
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className={`grid gap-6 ${isMobile ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-3 gap-8'}`}>
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="text-center p-8 rounded-2xl bg-bg-light border border-border shadow-soft hover:shadow-soft-lg transition-all duration-300"
+                className={`text-center rounded-2xl bg-bg-light border border-border shadow-soft hover:shadow-soft-lg transition-all duration-300 ${isMobile ? 'p-6' : 'p-8'}`}
               >
-                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r ${feature.color} mb-6`}>
-                  <feature.icon className="w-8 h-8 text-white" />
+                <div className={`inline-flex items-center justify-center rounded-full bg-gradient-to-r ${feature.color} ${isMobile ? 'w-12 h-12 mb-4' : 'w-16 h-16 mb-6'}`}>
+                  <feature.icon className={`text-white ${isMobile ? 'w-6 h-6' : 'w-8 h-8'}`} />
                 </div>
-                <h3 className="text-xl font-semibold text-text-dark mb-3">
+                <h3 className={`font-semibold text-text-dark ${isMobile ? 'text-lg mb-2' : 'text-xl mb-3'}`}>
                   {feature.title}
                 </h3>
-                <p className="text-text-gray">
+                <p className={`text-text-gray ${isMobile ? 'text-sm' : ''}`}>
                   {feature.description}
                 </p>
               </div>

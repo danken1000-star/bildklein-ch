@@ -11,10 +11,15 @@ import {
   calculateCompressionRatio
 } from '@/lib/compression';
 import Uploader from '@/components/Uploader';
+import MobileUploader from '@/components/MobileUploader';
 import CompressSettings from '@/components/CompressSettings';
 import ImagePreview from '@/components/ImagePreview';
 import DownloadButton from '@/components/DownloadButton';
 import CompressionProgress from '@/components/CompressionProgress';
+import MobileBottomSheet from '@/components/MobileBottomSheet';
+import LoadingSkeleton, { UploadSkeleton, ProgressSkeleton } from '@/components/LoadingSkeleton';
+import { useMobile, useTouchDevice } from '@/hooks/useMobile';
+import { Settings } from 'lucide-react';
 
 interface CompressedImage {
   original: File;
@@ -26,6 +31,9 @@ interface MainPageClientProps {
 }
 
 export default function MainPageClient({ messages }: MainPageClientProps) {
+  const { isMobile, isTablet } = useMobile();
+  const isTouchDevice = useTouchDevice();
+  
   const [files, setFiles] = useState<File[]>([]);
   const [compressedImages, setCompressedImages] = useState<CompressedImage[]>([]);
   const [compressionOptions, setCompressionOptions] = useState<CompressionOptions>(defaultOptions);
@@ -37,6 +45,8 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
     compressedSize: number;
     compressionRatio: number;
   }[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showSettingsSheet, setShowSettingsSheet] = useState(false);
 
   const handleFilesSelected = (selectedFiles: File[]) => {
     setFiles(selectedFiles);
@@ -116,15 +126,61 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
 
       {/* Upload Section */}
       <div className="max-w-4xl mx-auto">
-        <Uploader
-          onFilesSelected={handleFilesSelected}
-          messages={messages.upload}
-        />
+        {isMobile ? (
+          <MobileUploader 
+            onFilesSelected={handleFilesSelected} 
+            messages={messages.uploader}
+            files={files}
+            setFiles={setFiles}
+            isMobile={isMobile}
+          />
+        ) : (
+          <Uploader
+            onFilesSelected={handleFilesSelected}
+            messages={messages.upload}
+          />
+        )}
       </div>
 
       {/* Settings Section */}
       {files.length > 0 && (
         <div className="max-w-4xl mx-auto">
+          {isMobile ? (
+            <>
+              {/* Mobile Settings Button */}
+              <div className="mb-4">
+                <button
+                  onClick={() => setShowSettingsSheet(true)}
+                  className="w-full flex items-center justify-center space-x-2 px-6 py-4 bg-gradient-to-r from-pink to-turquoise text-white rounded-xl font-medium hover:from-pink-600 hover:to-turquoise-600 transition-all duration-200 shadow-soft min-h-[44px]"
+                >
+                  <Settings className="w-5 h-5" />
+                  <span>Einstellungen</span>
+                </button>
+              </div>
+              
+              {/* Mobile Bottom Sheet */}
+              <MobileBottomSheet
+                isOpen={showSettingsSheet}
+                onClose={() => setShowSettingsSheet(false)}
+                title="Komprimierungseinstellungen"
+              >
+                <div className="p-6">
+                  <CompressSettings
+                    options={compressionOptions}
+                    onOptionsChange={handleOptionsChange}
+                    onCompress={() => {
+                      handleCompress();
+                      setShowSettingsSheet(false);
+                    }}
+                    messages={messages.settings}
+                    files={files}
+                    isCompressing={isCompressing}
+                    compressionResults={compressionResults}
+                  />
+                </div>
+              </MobileBottomSheet>
+            </>
+          ) : (
             <CompressSettings
               options={compressionOptions}
               onOptionsChange={handleOptionsChange}
@@ -134,16 +190,23 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
               isCompressing={isCompressing}
               compressionResults={compressionResults}
             />
+          )}
         </div>
       )}
 
       {/* Loading State */}
       {isCompressing && (
         <div className="max-w-4xl mx-auto">
-          <CompressionProgress 
-            progress={compressionProgress}
-            totalFiles={files.length}
-          />
+          {isMobile ? (
+            <div className="bg-bg-light rounded-lg border border-border p-4 shadow-soft">
+              <ProgressSkeleton />
+            </div>
+          ) : (
+            <CompressionProgress 
+              progress={compressionProgress}
+              totalFiles={files.length}
+            />
+          )}
         </div>
       )}
 
@@ -163,14 +226,15 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
 
       {/* Preview Section */}
       {compressedImages.length > 0 && !isCompressing && (
-        <div className="space-y-6">
+        <div className={`space-y-6 ${isMobile ? 'px-4' : ''}`}>
           {compressedImages.map((image, index) => (
-            <div key={index} className="max-w-6xl mx-auto">
+            <div key={index} className={`${isMobile ? 'w-full' : 'max-w-6xl mx-auto'}`}>
               <ImagePreview
                 originalFile={image.original}
                 compressedFile={image.compressed}
                 onRecompress={handleCompress}
                 messages={messages}
+                isMobile={isMobile}
               />
             </div>
           ))}
@@ -180,14 +244,15 @@ export default function MainPageClient({ messages }: MainPageClientProps) {
       {/* Download Section */}
       {compressedFiles.length > 0 && !isCompressing && (
         <div className="max-w-4xl mx-auto">
-          <div className="bg-bg-light rounded-lg border border-border p-6 shadow-soft">
-            <h3 className="text-lg font-semibold text-text-dark mb-4">
+          <div className={`bg-bg-light rounded-lg border border-border shadow-soft ${isMobile ? 'p-4' : 'p-6'}`}>
+            <h3 className={`font-semibold text-text-dark ${isMobile ? 'text-base mb-3' : 'text-lg mb-4'}`}>
               {messages.download.title}
             </h3>
             <DownloadButton
               files={compressedFiles}
               onReset={handleReset}
               messages={messages.download}
+              isMobile={isMobile}
             />
           </div>
         </div>

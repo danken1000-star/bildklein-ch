@@ -6,6 +6,7 @@ interface ImagePreviewProps {
   originalFile: File;
   compressedFile: File;
   onRecompress?: () => void;
+  isMobile?: boolean;
   messages: {
     preview: {
       title: string;
@@ -25,7 +26,8 @@ interface ImagePreviewProps {
 export default function ImagePreview({ 
   originalFile, 
   compressedFile, 
-  onRecompress,
+  onRecompress, 
+  isMobile = false,
   messages 
 }: ImagePreviewProps) {
   const originalSize = originalFile.size;
@@ -35,16 +37,16 @@ export default function ImagePreview({
   const isSignificantSavings = savings > 50;
 
   return (
-    <div className="bg-bg-light rounded-lg border border-border p-6 shadow-soft hover:shadow-soft-lg transition-all duration-200">
+    <div className={`bg-bg-light rounded-lg border border-border shadow-soft hover:shadow-soft-lg transition-all duration-200 ${isMobile ? 'p-4' : 'p-6'}`}>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-text-dark">
+      <div className={`flex items-center justify-between ${isMobile ? 'mb-4' : 'mb-6'}`}>
+        <h3 className={`font-semibold text-text-dark ${isMobile ? 'text-base' : 'text-lg'}`}>
           {messages.preview.title}
         </h3>
         {onRecompress && (
           <button
             onClick={onRecompress}
-            className="flex items-center space-x-2 px-3 py-1.5 bg-gradient-to-r from-orange to-purple text-white rounded-md text-sm font-medium hover:from-orange-600 hover:to-purple-600 transition-all duration-200"
+            className={`flex items-center space-x-2 bg-gradient-to-r from-orange to-purple text-white rounded-md font-medium hover:from-orange-600 hover:to-purple-600 transition-all duration-200 ${isMobile ? 'px-3 py-2 text-sm min-h-[44px]' : 'px-3 py-1.5 text-sm'}`}
           >
             <RotateCcw className="w-4 h-4" />
             <span>{messages.preview.recompress}</span>
@@ -53,7 +55,7 @@ export default function ImagePreview({
       </div>
 
       {/* Before/After Comparison */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <div className={`grid gap-4 ${isMobile ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2 gap-6'} ${isMobile ? 'mb-4' : 'mb-6'}`}>
         {/* Original Image */}
         <div className="space-y-4">
           <div className="flex items-center space-x-2">

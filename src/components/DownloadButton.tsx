@@ -8,6 +8,7 @@ import { Download, Archive, Plus, Loader2 } from 'lucide-react';
 interface DownloadButtonProps {
   files: File[];
   onReset?: () => void;
+  isMobile?: boolean;
   messages: {
     download: {
       downloadSingle: string;
@@ -24,6 +25,7 @@ interface DownloadButtonProps {
 export default function DownloadButton({ 
   files, 
   onReset,
+  isMobile = false,
   messages, 
   className = '' 
 }: DownloadButtonProps) {
@@ -90,12 +92,13 @@ export default function DownloadButton({
           <button
             onClick={() => downloadSingle(files[0])}
             disabled={isDownloading || downloadingFile === files[0].name}
-            className="
-              w-full flex items-center justify-center space-x-2 px-6 py-3 
-              bg-gradient-to-r from-pink to-turquoise text-white rounded-lg font-medium
+            className={`
+              w-full flex items-center justify-center space-x-2 rounded-lg font-medium
+              bg-gradient-to-r from-pink to-turquoise text-white
               hover:from-pink-600 hover:to-turquoise-600 transition-all duration-200 shadow-soft
               disabled:opacity-50 disabled:cursor-not-allowed
-            "
+              ${isMobile ? 'px-4 py-4 min-h-[44px]' : 'px-6 py-3'}
+            `}
           >
             {downloadingFile === files[0].name ? (
               <>
@@ -114,12 +117,13 @@ export default function DownloadButton({
           <button
             onClick={downloadAllAsZip}
             disabled={isDownloading}
-            className="
-              w-full flex items-center justify-center space-x-2 px-6 py-3 
-              bg-gradient-to-r from-pink to-turquoise text-white rounded-lg font-medium
+            className={`
+              w-full flex items-center justify-center space-x-2 rounded-lg font-medium
+              bg-gradient-to-r from-pink to-turquoise text-white
               hover:from-pink-600 hover:to-turquoise-600 transition-all duration-200 shadow-soft
               disabled:opacity-50 disabled:cursor-not-allowed
-            "
+              ${isMobile ? 'px-4 py-4 min-h-[44px]' : 'px-6 py-3'}
+            `}
           >
             {isDownloading ? (
               <>
@@ -174,11 +178,12 @@ export default function DownloadButton({
         <div className="pt-4 border-t border-border">
           <button
             onClick={onReset}
-            className="
-              w-full flex items-center justify-center space-x-2 px-4 py-2 
-              bg-bg-gray text-text-gray rounded-lg font-medium
+            className={`
+              w-full flex items-center justify-center space-x-2 rounded-lg font-medium
+              bg-bg-gray text-text-gray
               hover:bg-border hover:text-text-dark transition-colors duration-200
-            "
+              ${isMobile ? 'px-4 py-4 min-h-[44px]' : 'px-4 py-2'}
+            `}
           >
             <Plus className="w-4 h-4" />
             <span>{messages.download.compressMore}</span>
