@@ -1,32 +1,16 @@
 {
-  "name": "bildklein.ch - Bilder kostenlos verkleinern",
+  "name": "bildklein.ch",
   "short_name": "bildklein",
-  "description": "Komprimiere deine Bilder ohne Qualitätsverlust. 100% kostenlos, 100% privat, 100% Swiss-made.",
+  "description": "Bilder kostenlos verkleinern",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFFFFF",
-  "theme_color": "#FF6B9D",
-  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#ec4899",
   "icons": [
     {
-      "src": "/favicon.ico",
+      "src": "/favicon.svg",
       "sizes": "any",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "/favicon-32x32.png",
-      "sizes": "32x32",
-      "type": "image/png"
-    },
-    {
-      "src": "/favicon-16x16.png",
-      "sizes": "16x16",
-      "type": "image/png"
-    },
-    {
-      "src": "/apple-touch-icon.png",
-      "sizes": "180x180",
-      "type": "image/png"
+      "type": "image/svg+xml"
     }
   ]
 }

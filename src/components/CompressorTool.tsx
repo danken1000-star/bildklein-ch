@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import imageCompression from 'browser-image-compression'
 
 interface CompressedImage {
@@ -15,7 +15,17 @@ interface CompressedImage {
 export default function CompressorTool() {
   const [images, setImages] = useState<CompressedImage[]>([])
   const [isProcessing, setIsProcessing] = useState(false)
+  const [totalCompressed, setTotalCompressed] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('bildklein-total-compressed')
+      if (stored) {
+        setTotalCompressed(parseInt(stored, 10))
+      }
+    }
+  }, [])
 
   const compressImages = async (files: File[]) => {
     setIsProcessing(true)
@@ -57,6 +67,13 @@ export default function CompressorTool() {
 
       setImages(compressedImages)
       setIsProcessing(false)
+      
+      const newTotal = totalCompressed + files.length
+      setTotalCompressed(newTotal)
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('bildklein-total-compressed', newTotal.toString())
+      }
+      
       console.log('🎉 All done!')
 
     } catch (error) {
@@ -114,6 +131,14 @@ export default function CompressorTool() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-16">
+      {totalCompressed > 0 && (
+        <div className="text-center mb-8">
+          <span className="inline-flex items-center gap-2 px-4 py-2 bg-green-50 text-green-700 rounded-full text-sm font-semibold">
+            🎉 Über {totalCompressed.toLocaleString('de-CH')} Bilder komprimiert
+          </span>
+        </div>
+      )}
+      
       {images.length === 0 ? (
         <div>
           <div className="text-center mb-12">
