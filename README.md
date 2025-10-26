@@ -1,11 +1,11 @@
 # bildklein.ch 🇨🇭
 
-![bildklein.ch Screenshot](https://github.com/user-attachments/assets/65ef1305-38b5-425d-bd85-7d15dea32793)
-
 > Swiss Image Compression Tool - Kostenlos, sicher, blitzschnell.
 
 [![Live Demo](https://img.shields.io/badge/demo-bildklein.ch-blue)](https://bildklein.ch)
 [![Made in Switzerland](https://img.shields.io/badge/made%20in-🇨🇭%20switzerland-red)](https://bildklein.ch)
+
+![bildklein.ch Screenshot](https://github.com/user-attachments/assets/65ef1305-38b5-425d-bd85-7d15dea32793)
 
 ## 🎯 Features
 
