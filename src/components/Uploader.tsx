@@ -186,10 +186,10 @@ export default function Uploader({
           
           <div>
             <h3 className="text-2xl font-bold text-text-dark mb-2">
-              {messages.upload.title}
+              {messages?.upload?.title || 'Bilder hochladen'}
             </h3>
             <p className="text-lg text-text-gray mb-4">
-              {messages.upload.subtitle}
+              {messages?.upload?.subtitle || 'Ziehe Bilder hierher oder klicke zum Auswählen'}
             </p>
             <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-pink to-turquoise text-white rounded-full text-sm font-medium">
               Dateien auswählen
@@ -197,7 +197,7 @@ export default function Uploader({
           </div>
           
           <div className="text-sm text-text-gray space-y-1">
-            <p>{messages.upload.supportedFormats}</p>
+            <p>{messages?.upload?.supportedFormats || 'Unterstützte Formate: JPG, PNG, WebP'}</p>
             <p>Max. {formatFileSize(maxSize)} pro Bild</p>
             <p>Bis zu {maxFiles} Bilder gleichzeitig</p>
           </div>

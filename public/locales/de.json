@@ -20,6 +20,16 @@
       "description": "Präzision und Zuverlässigkeit - wie die Schweizer Uhren."
     }
   },
+  "upload": {
+    "title": "Bilder hochladen",
+    "subtitle": "Ziehe Bilder hierher oder klicke zum Auswählen",
+    "supportedFormats": "Unterstützte Formate: JPG, PNG, WebP",
+    "dragDrop": "Bilder hierher ziehen oder klicken",
+    "selectFiles": "Dateien auswählen",
+    "uploadedImages": "Hochgeladene Bilder",
+    "removeAll": "Alle entfernen",
+    "fileTooLarge": "Zu groß"
+  },
   "uploader": {
     "title": "Bilder hochladen",
     "dragDrop": "Bilder hierher ziehen oder klicken",

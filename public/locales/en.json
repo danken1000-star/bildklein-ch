@@ -20,6 +20,16 @@
       "description": "Precision and reliability - like Swiss watches."
     }
   },
+  "upload": {
+    "title": "Upload Images",
+    "subtitle": "Drag images here or click to select",
+    "supportedFormats": "Supported formats: JPG, PNG, WebP",
+    "dragDrop": "Drag images here or click",
+    "selectFiles": "Select files",
+    "uploadedImages": "Uploaded images",
+    "removeAll": "Remove all",
+    "fileTooLarge": "Too large"
+  },
   "uploader": {
     "title": "Upload images",
     "dragDrop": "Drag your images here or click",

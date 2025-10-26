@@ -20,6 +20,16 @@
       "description": "Precisione e affidabilità - come gli orologi svizzeri."
     }
   },
+  "upload": {
+    "title": "Carica immagini",
+    "subtitle": "Trascina le immagini qui o clicca per selezionare",
+    "supportedFormats": "Formati supportati: JPG, PNG, WebP",
+    "dragDrop": "Trascina le immagini qui o clicca",
+    "selectFiles": "Seleziona file",
+    "uploadedImages": "Immagini caricate",
+    "removeAll": "Rimuovi tutto",
+    "fileTooLarge": "Troppo grande"
+  },
   "uploader": {
     "title": "Carica immagini",
     "dragDrop": "Trascina le tue immagini qui o clicca",

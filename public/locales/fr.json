@@ -20,6 +20,16 @@
       "description": "Précision et fiabilité - comme les montres suisses."
     }
   },
+  "upload": {
+    "title": "Télécharger des images",
+    "subtitle": "Glissez des images ici ou cliquez pour sélectionner",
+    "supportedFormats": "Formats supportés: JPG, PNG, WebP",
+    "dragDrop": "Glissez des images ici ou cliquez",
+    "selectFiles": "Sélectionner des fichiers",
+    "uploadedImages": "Images téléchargées",
+    "removeAll": "Tout supprimer",
+    "fileTooLarge": "Trop grand"
+  },
   "uploader": {
     "title": "Télécharger des images",
     "dragDrop": "Glissez vos images ici ou cliquez",
