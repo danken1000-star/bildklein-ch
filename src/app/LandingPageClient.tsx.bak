@@ -21,7 +21,7 @@ export default function LandingPageClient({ messages, locale }: LandingPageClien
   const handleFilesSelected = (selectedFiles: File[]) => {
     setFiles(selectedFiles);
     // Navigate to compression page with files
-    ;
+    router.push(`/${locale}/compress`);
   };
 
   const features = [
