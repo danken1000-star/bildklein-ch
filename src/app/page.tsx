@@ -29,7 +29,11 @@ export default function HomePage() {
                 <div className="text-sm text-gray-600">🇨🇭 Made in Switzerland</div>
               </div>
             </div>
-            <div className="flex items-center gap-6 text-sm">
+            <div className="flex flex-col md:flex-row items-center gap-4 text-sm">
+              <div className="flex items-center gap-4">
+                <a href="/impressum" className="text-gray-600 hover:text-gray-900">Impressum</a>
+                <a href="/datenschutz" className="text-gray-600 hover:text-gray-900">Datenschutz</a>
+              </div>
               <span className="text-gray-600">
                 Built by{' '}
                 <a 
