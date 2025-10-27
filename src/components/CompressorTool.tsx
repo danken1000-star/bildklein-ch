@@ -1,6 +1,7 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
 import imageCompression from 'browser-image-compression'
+import JSZip from 'jszip'
 
 interface CompressedImage {
   original: File
@@ -107,6 +108,44 @@ export default function CompressorTool() {
     link.href = image.compressedUrl
     link.download = `bildklein-${image.original.name}`
     link.click()
+  }
+
+  const downloadAllAsZip = async () => {
+    console.log('📦 Creating ZIP with', images.length, 'images')
+    
+    try {
+      const zip = new JSZip()
+      
+      // Add all compressed images to ZIP
+      for (const img of images) {
+        const fileName = `bildklein-${img.original.name}`
+        zip.file(fileName, img.compressed)
+        console.log('✅ Added to ZIP:', fileName)
+      }
+      
+      // Generate ZIP file
+      console.log('🔄 Generating ZIP...')
+      const blob = await zip.generateAsync({ 
+        type: 'blob',
+        compression: 'DEFLATE',
+        compressionOptions: { level: 6 }
+      })
+      
+      // Create download link
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `bildklein-${images.length}-bilder-${Date.now()}.zip`
+      link.click()
+      
+      // Cleanup
+      URL.revokeObjectURL(url)
+      
+      console.log('🎉 ZIP download started!')
+    } catch (error) {
+      console.error('❌ ZIP creation failed:', error)
+      alert('Fehler beim Erstellen der ZIP-Datei. Bitte versuche es erneut.')
+    }
   }
 
   const downloadAll = () => {
@@ -230,10 +269,13 @@ export default function CompressorTool() {
           <div className="flex gap-4">
             {images.length > 1 && (
               <button
-                onClick={downloadAll}
-                className="flex-1 px-6 py-3 bg-gray-900 text-white rounded-full font-semibold hover:bg-gray-800"
+                onClick={downloadAllAsZip}
+                className="flex-1 px-6 py-3 bg-gray-900 text-white rounded-full font-semibold hover:bg-gray-800 flex items-center justify-center gap-2"
               >
-                Alle herunterladen ({images.length})
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Alle als ZIP herunterladen ({images.length})
               </button>
             )}
             <button
