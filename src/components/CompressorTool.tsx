@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import imageCompression from 'browser-image-compression'
 
 interface CompressedImage {
@@ -15,7 +15,18 @@ interface CompressedImage {
 export default function CompressorTool() {
   const [images, setImages] = useState<CompressedImage[]>([])
   const [isProcessing, setIsProcessing] = useState(false)
+  const [totalCompressed, setTotalCompressed] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // Load counter on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('bildklein-total-compressed')
+      if (stored) {
+        setTotalCompressed(parseInt(stored, 10))
+      }
+    }
+  }, [])
 
   const compressImages = async (files: File[]) => {
     setIsProcessing(true)
@@ -57,6 +68,14 @@ export default function CompressorTool() {
 
       setImages(compressedImages)
       setIsProcessing(false)
+      
+      // Update counter after successful compression
+      const newTotal = totalCompressed + files.length
+      setTotalCompressed(newTotal)
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('bildklein-total-compressed', newTotal.toString())
+      }
+      console.log('🎉 Total images compressed:', newTotal)
       console.log('🎉 All done!')
 
     } catch (error) {
@@ -158,7 +177,18 @@ export default function CompressorTool() {
             </div>
           </div>
 
-          <p className="text-center text-gray-600 mt-8">Keine Registrierung. Keine Limits. 100% kostenlos.</p>
+          {/* Social Proof Counter */}
+          {totalCompressed > 0 && (
+            <div className="text-center mt-8">
+              <span className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-50 to-cyan-50 text-green-700 rounded-full text-sm font-semibold border border-green-200">
+                🎉 Bereits über {totalCompressed.toLocaleString('de-CH')} Bilder erfolgreich komprimiert
+              </span>
+            </div>
+          )}
+
+          <p className="text-center text-gray-600 mt-4">
+            Keine Registrierung. Keine Limits. 100% kostenlos.
+          </p>
         </div>
       ) : isProcessing ? (
         <div className="text-center py-16">
