@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@next/font": "^14.2.15",
+    "@vercel/analytics": "^1.5.0",
     "browser-image-compression": "^2.0.2",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
