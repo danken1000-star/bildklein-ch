@@ -1,7 +1,6 @@
 'use client'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import imageCompression from 'browser-image-compression'
-import JSZip from 'jszip'
 
 interface CompressedImage {
   original: File
@@ -16,17 +15,7 @@ interface CompressedImage {
 export default function CompressorTool() {
   const [images, setImages] = useState<CompressedImage[]>([])
   const [isProcessing, setIsProcessing] = useState(false)
-  const [totalCompressed, setTotalCompressed] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('bildklein-total-compressed')
-      if (stored) {
-        setTotalCompressed(parseInt(stored, 10))
-      }
-    }
-  }, [])
 
   const compressImages = async (files: File[]) => {
     setIsProcessing(true)
@@ -68,13 +57,6 @@ export default function CompressorTool() {
 
       setImages(compressedImages)
       setIsProcessing(false)
-      
-      const newTotal = totalCompressed + files.length
-      setTotalCompressed(newTotal)
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('bildklein-total-compressed', newTotal.toString())
-      }
-      
       console.log('🎉 All done!')
 
     } catch (error) {
@@ -110,44 +92,6 @@ export default function CompressorTool() {
     link.click()
   }
 
-  const downloadAllAsZip = async () => {
-    console.log('📦 Creating ZIP with', images.length, 'images')
-    
-    try {
-      const zip = new JSZip()
-      
-      // Add all compressed images to ZIP
-      for (const img of images) {
-        const fileName = `bildklein-${img.original.name}`
-        zip.file(fileName, img.compressed)
-        console.log('✅ Added to ZIP:', fileName)
-      }
-      
-      // Generate ZIP file
-      console.log('🔄 Generating ZIP...')
-      const blob = await zip.generateAsync({ 
-        type: 'blob',
-        compression: 'DEFLATE',
-        compressionOptions: { level: 6 }
-      })
-      
-      // Create download link
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement('a')
-      link.href = url
-      link.download = `bildklein-${images.length}-bilder-${Date.now()}.zip`
-      link.click()
-      
-      // Cleanup
-      URL.revokeObjectURL(url)
-      
-      console.log('🎉 ZIP download started!')
-    } catch (error) {
-      console.error('❌ ZIP creation failed:', error)
-      alert('Fehler beim Erstellen der ZIP-Datei. Bitte versuche es erneut.')
-    }
-  }
-
   const downloadAll = () => {
     images.forEach(img => downloadImage(img))
   }
@@ -170,14 +114,6 @@ export default function CompressorTool() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-16">
-      {totalCompressed > 0 && (
-        <div className="text-center mb-8">
-          <span className="inline-flex items-center gap-2 px-4 py-2 bg-green-50 text-green-700 rounded-full text-sm font-semibold">
-            🎉 Über {totalCompressed.toLocaleString('de-CH')} Bilder komprimiert
-          </span>
-        </div>
-      )}
-      
       {images.length === 0 ? (
         <div>
           <div className="text-center mb-12">
@@ -269,13 +205,10 @@ export default function CompressorTool() {
           <div className="flex gap-4">
             {images.length > 1 && (
               <button
-                onClick={downloadAllAsZip}
-                className="flex-1 px-6 py-3 bg-gray-900 text-white rounded-full font-semibold hover:bg-gray-800 flex items-center justify-center gap-2"
+                onClick={downloadAll}
+                className="flex-1 px-6 py-3 bg-gray-900 text-white rounded-full font-semibold hover:bg-gray-800"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                Alle als ZIP herunterladen ({images.length})
+                Alle herunterladen ({images.length})
               </button>
             )}
             <button
@@ -287,47 +220,6 @@ export default function CompressorTool() {
           </div>
         </div>
       )}
-
-      {/* Features Section - Always visible */}
-      <section className="bg-gray-50 py-16 mt-16 -mx-4">
-        <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            Warum bildklein.ch?
-          </h2>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-2xl p-8 text-center shadow-sm">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold mb-3">100% Privat</h3>
-              <p className="text-gray-600">Bilder bleiben auf deinem Gerät</p>
-            </div>
-
-            <div className="bg-white rounded-2xl p-8 text-center shadow-sm">
-              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold mb-3">Blitzschnell</h3>
-              <p className="text-gray-600">Komprimierung im Browser</p>
-            </div>
-
-            <div className="bg-white rounded-2xl p-8 text-center shadow-sm">
-              <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold mb-3">Swiss Quality</h3>
-              <p className="text-gray-600">Made in Switzerland</p>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   )
 }
