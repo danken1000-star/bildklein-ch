@@ -53,10 +53,6 @@ export const metadata: Metadata = {
     images: ['/og-image.png'],
   },
   
-  icons: {
-    icon: '/favicon.svg',
-    apple: '/favicon.svg',
-  },
   
   manifest: '/site.webmanifest',
 }
