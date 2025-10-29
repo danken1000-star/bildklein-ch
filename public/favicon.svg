@@ -2,8 +2,8 @@
   <rect width="512" height="512" rx="115" fill="url(#gradient)"/>
   <defs>
     <linearGradient id="gradient" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
-      <stop offset="20%" stop-color="#EC4899"/>
-      <stop offset="80%" stop-color="#06B6D4"/>
+      <stop offset="0%" stop-color="#F472B6"/>
+      <stop offset="100%" stop-color="#22D3EE"/>
     </linearGradient>
   </defs>
   <text x="256" y="380" font-family="Arial, sans-serif" font-size="380" font-weight="700" fill="white" text-anchor="middle">B</text>
