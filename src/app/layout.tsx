@@ -20,6 +20,11 @@ export const metadata: Metadata = {
     'switzerland',
     'online tool'
   ],
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
   authors: [{ name: 'flow19', url: 'https://flow19.ch' }],
   creator: 'flow19',
   publisher: 'flow19',
